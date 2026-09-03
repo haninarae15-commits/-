@@ -254,12 +254,12 @@ export default function App() {
                 <h1 className="text-base sm:text-lg font-black text-slate-900 tracking-tight">
                   KRX 상장사 분석 및 평가
                 </h1>
-                <span className="text-[11px] font-bold px-2 py-0.5 bg-blue-50 text-blue-700 border border-blue-200 rounded-full">
-                  FnGuide 연동
+                <span className="text-[11px] font-bold px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full">
+                  네이버 금융 연동
                 </span>
               </div>
               <p className="text-[11px] text-slate-500 hidden sm:block">
-                한국거래소 2,800여개 전체 상장사 · 업종별 소팅 · FnGuide 연동 · S/A/B/F 투자 등급 관리
+                한국거래소 2,800여개 전체 상장사 · 네이버 금융 종목분석 연동 · S/A/B/F 투자 등급 관리
               </p>
             </div>
           </div>
@@ -293,18 +293,18 @@ export default function App() {
       {/* Main Content Area */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
         {/* Guide Callout banner */}
-        <div className="bg-sky-50/70 border border-sky-200/80 rounded-xl p-3.5 sm:p-4 mb-5 flex items-start gap-3 text-sky-950">
-          <Info className="w-5 h-5 text-sky-600 shrink-0 mt-0.5" />
-          <div className="text-xs sm:text-[13px] leading-relaxed">
-            <span className="font-bold text-sky-900">사용 방법: </span>
-            기업 목록에서 <span className="font-semibold underline decoration-sky-400">기업명을 클릭</span>하거나{' '}
-            <span className="font-semibold text-blue-700 bg-white px-1 py-0.5 rounded border border-blue-200 inline-flex items-center gap-0.5">
-              FnGuide <ExternalLink className="w-2.5 h-2.5" />
+        <div className="bg-emerald-50/60 border border-emerald-200/80 rounded-xl p-3.5 sm:p-4 mb-5 flex items-start gap-3 text-emerald-950">
+          <Info className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+          <div className="text-xs sm:text-[13px] leading-relaxed text-slate-700">
+            <span className="font-bold text-emerald-900">사용 방법: </span>
+            기업 목록에서 <span className="font-semibold text-emerald-800 underline decoration-emerald-400">종목명을 클릭</span>하거나{' '}
+            <span className="font-semibold text-emerald-800 bg-white px-1.5 py-0.5 rounded border border-emerald-300 inline-flex items-center gap-0.5 shadow-2xs">
+              네이버 금융 <ExternalLink className="w-2.5 h-2.5 text-emerald-600" />
             </span>{' '}
-            버튼을 클릭하면 해당 기업의 공식 FnGuide Company Guide 페이지가 새 창으로 열립니다.{' '}
-            우측의 <span className="font-bold text-emerald-700">A</span> /{' '}
+            버튼을 클릭하면 네이버 금융 종목분석 페이지(예: 고려신용정보 `049720`)가 새 창으로 열립니다.{' '}
+            우측의 <span className="font-bold text-purple-700">S</span> /{' '}
+            <span className="font-bold text-emerald-700">A</span> /{' '}
             <span className="font-bold text-blue-700">B</span> /{' '}
-            <span className="font-bold text-amber-700">C</span> /{' '}
             <span className="font-bold text-rose-700">F</span> 버튼으로 직접 기업 투자 등급을 매길 수 있으며 모든 데이터는 브라우저에 안전하게 보관됩니다.
           </div>
         </div>

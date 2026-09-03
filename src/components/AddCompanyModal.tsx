@@ -113,7 +113,7 @@ export const AddCompanyModal: React.FC<AddCompanyModalProps> = ({
               required
             />
             <p className="text-[11px] text-slate-400 mt-1">
-              FnGuide 기업분석 이동 링크와 연동되므로 정확한 6자리 코드를 입력해주세요.
+              네이버 금융 종목분석 링크와 연동되므로 정확한 6자리 코드를 입력해주세요.
             </p>
           </div>
 

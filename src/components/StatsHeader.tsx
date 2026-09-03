@@ -36,7 +36,7 @@ export const StatsHeader: React.FC<StatsHeaderProps> = ({
             </h2>
           </div>
           <p className="text-xs text-slate-500 mt-1">
-            각 기업명을 클릭하면 FnGuide 기업분석 페이지로 바로 이동하며, 아래 등급 카드를 클릭해 등급별 필터링을 할 수 있습니다.
+            종목을 클릭하면 네이버 금융 종목분석 페이지로 바로 이동하며, 아래 등급 카드를 클릭해 등급별 필터링을 할 수 있습니다.
           </p>
         </div>
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Company, CompanyEvaluation, RatingGrade, SortDirection, SortField } from '../types';
-import { getFnGuideUrl } from '../data/krxCompanies';
+import { getNaverFinanceUrl, getFnGuideUrl } from '../data/krxCompanies';
 import { RatingBadge, RatingSelector } from './RatingBadge';
 import {
   ExternalLink,
@@ -89,8 +89,8 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
     }, 1500);
   };
 
-  const handleOpenFnGuide = (company: Company) => {
-    const url = getFnGuideUrl(company.code);
+  const handleOpenNaverFinance = (company: Company) => {
+    const url = getNaverFinanceUrl(company.code);
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
@@ -183,8 +183,8 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
                 </div>
               </th>
 
-              <th id="th-company-guide" className="py-3 px-4 w-[130px] text-center">
-                FnGuide 분석
+              <th id="th-company-guide" className="py-3 px-4 w-[160px] text-center">
+                종목 분석 (네이버)
               </th>
 
               <th
@@ -208,15 +208,16 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
               const evalData = evaluations[company.code];
               const currentGrade = evalData?.grade;
               const hasMemo = Boolean(evalData?.memo && evalData.memo.trim().length > 0);
+              const naverFinanceUrl = getNaverFinanceUrl(company.code);
               const fnGuideUrl = getFnGuideUrl(company.code);
 
               return (
                 <tr
                   key={company.code}
                   id={`company-row-${company.code}`}
-                  onClick={() => handleOpenFnGuide(company)}
-                  className="hover:bg-sky-50/40 transition-colors cursor-pointer group"
-                  title="클릭하여 FnGuide 기업분석 페이지 열기"
+                  onClick={() => handleOpenNaverFinance(company)}
+                  className="hover:bg-emerald-50/40 transition-colors cursor-pointer group"
+                  title="클릭하여 네이버 금융 종목분석(finance.naver.com) 열기"
                 >
                   {/* Stock Code */}
                   <td className="py-3.5 px-4 font-mono text-xs text-slate-500 whitespace-nowrap">
@@ -242,7 +243,7 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
                   <td className="py-3.5 px-4">
                     <div className="flex flex-col">
                       <div className="flex items-center gap-2">
-                        <span className="font-bold text-slate-900 group-hover:text-blue-600 transition-colors text-[15px]">
+                        <span className="font-bold text-slate-900 group-hover:text-emerald-700 transition-colors text-[15px]">
                           {company.name}
                         </span>
                         {company.isCustom && (
@@ -282,19 +283,32 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
                     </div>
                   </td>
 
-                  {/* FnGuide Link Action Button */}
+                  {/* Analysis Link Action Buttons (Naver Finance & FnGuide) */}
                   <td className="py-3.5 px-4 text-center whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
-                    <a
-                      id={`link-fnguide-${company.code}`}
-                      href={fnGuideUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 hover:text-blue-800 border border-blue-200 rounded-md transition-colors"
-                      title="새 탭에서 FnGuide 기업분석 열기"
-                    >
-                      <span>FnGuide</span>
-                      <ExternalLink className="w-3 h-3 text-blue-500" />
-                    </a>
+                    <div className="inline-flex items-center gap-1.5 justify-center">
+                      <a
+                        id={`link-naver-${company.code}`}
+                        href={naverFinanceUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 hover:text-emerald-900 border border-emerald-300/90 rounded-md transition-colors shadow-2xs"
+                        title="새 탭에서 네이버 금융 종목분석 열기"
+                      >
+                        <span className="font-bold">네이버</span>
+                        <span>금융</span>
+                        <ExternalLink className="w-3 h-3 text-emerald-600" />
+                      </a>
+                      <a
+                        id={`link-fnguide-${company.code}`}
+                        href={fnGuideUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center px-1.5 py-1 text-[11px] font-medium text-slate-500 hover:text-blue-700 bg-slate-50 hover:bg-blue-50 border border-slate-200 rounded-md transition-colors"
+                        title="새 탭에서 FnGuide 기업분석 열기"
+                      >
+                        <span>FnGuide</span>
+                      </a>
+                    </div>
                   </td>
 
                   {/* Ratings (A, B, C, F) */}
