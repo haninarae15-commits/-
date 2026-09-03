@@ -19,6 +19,7 @@ import { WatchlistFolderBar } from './components/WatchlistFolderBar';
 import { MarketCapSyncBar } from './components/MarketCapSyncBar';
 import { AddCompanyModal } from './components/AddCompanyModal';
 import { DataManagementModal } from './components/DataManagementModal';
+import marketCapCacheData from './data/marketCapCache.json';
 import {
   TrendingUp,
   Plus,
@@ -65,12 +66,12 @@ export default function App() {
         updatedAt?: string;
       }
     >
-  >({});
+  >(() => (marketCapCacheData && (marketCapCacheData as any).data ? (marketCapCacheData as any).data : {}));
 
   const [syncStatus, setSyncStatus] = useState<MarketCapSyncStatus>({
     isSyncing: false,
     progress: 0,
-    lastSyncedAt: null,
+    lastSyncedAt: (marketCapCacheData && (marketCapCacheData as any).lastSyncedAt) || null,
   });
 
   // Fetch initial market caps and status on mount
