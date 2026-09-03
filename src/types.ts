@@ -19,7 +19,22 @@ export interface CompanyEvaluation {
   updatedAt: string;
 }
 
-export type SortField = 'sector' | 'name' | 'code' | 'rating' | 'market';
+export interface WatchlistFolder {
+  id: string;
+  name: string;
+  color: string;
+  createdAt: string;
+}
+
+export interface WatchlistEntry {
+  code: string;
+  folderId: string;
+  addedAt: string;
+}
+
+export type ViewTab = 'ALL' | 'WATCHLIST';
+
+export type SortField = 'sector' | 'name' | 'code' | 'rating' | 'market' | 'watchlist';
 export type SortDirection = 'asc' | 'desc';
 
 export interface FilterState {
@@ -27,4 +42,6 @@ export interface FilterState {
   sector: string;
   rating: 'ALL' | 'RATED' | 'UNRATED' | RatingGrade;
   searchQuery: string;
+  selectedFolderId?: string; // 'ALL' or specific folder id
 }
+

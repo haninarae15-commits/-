@@ -6,6 +6,10 @@ export function getNaverFinanceUrl(code: string): string {
   return `https://finance.naver.com/item/main.naver?code=${cleanCode}`;
 }
 
+export function getNaverSearchUrl(query: string): string {
+  return `https://finance.naver.com/search/search.naver?query=${encodeURIComponent(query.trim())}`;
+}
+
 export function getFnGuideUrl(code: string): string {
   const cleanCode = code.trim().padStart(6, '0');
   return `https://comp.fnguide.com/SVO2/ASP/SVD_Main.asp?pGB=1&gicode=A${cleanCode}&cID=AA&MenuYn=Y&ReportGB=&NewMenuID=101&stkGb=701`;

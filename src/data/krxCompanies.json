@@ -22128,923 +22128,867 @@
     "description": "소프트센우 (KOSDAQ 상장)"
   },
   {
-    "code": "086080",
-    "name": "다이노나",
+    "code": "223220",
+    "name": "로지스몬",
     "market": "KONEX",
-    "sector": "자연과학 및 공학 연구개발업",
-    "subSector": "항체치료제",
-    "description": "항체치료제"
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "로지스몬 (KONEX 상장)"
   },
   {
-    "code": "178600",
-    "name": "대동고려삼",
+    "code": "299480",
+    "name": "지앤이헬스케어",
     "market": "KONEX",
-    "sector": "식품",
-    "subSector": "인삼식품(홍삼진액, 홍삼정)",
-    "description": "인삼식품(홍삼진액, 홍삼정)"
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "지앤이헬스케어 (KONEX 상장)"
   },
   {
-    "code": "163430",
-    "name": "디피코",
+    "code": "122830",
+    "name": "원포유",
     "market": "KONEX",
-    "sector": "건축기술, 엔지니어링 및 관련 기술 서비스업",
-    "subSector": "자동차 엔지니어링 서비스, 의료용 전동스쿠터 등",
-    "description": "자동차 엔지니어링 서비스, 의료용 전동스쿠터 등"
-  },
-  {
-    "code": "285770",
-    "name": "라이프사이언스테크놀로지",
-    "market": "KONEX",
-    "sector": "소프트웨어 개발 및 공급업",
-    "subSector": "생체신호모듈 및 패치형 체온 측정시스템 등",
-    "description": "생체신호모듈 및 패치형 체온 측정시스템 등"
-  },
-  {
-    "code": "238500",
-    "name": "로보쓰리",
-    "market": "KONEX",
-    "sector": "전자장비와기기",
-    "subSector": "모듈, 퍼스널 모빌리티기기",
-    "description": "모듈, 퍼스널 모빌리티기기"
-  },
-  {
-    "code": "199290",
-    "name": "바이오프로테크",
-    "market": "KONEX",
-    "sector": "건강관리장비와용품",
-    "subSector": "심전도 측정용 전극 등",
-    "description": "심전도 측정용 전극 등"
-  },
-  {
-    "code": "260870",
-    "name": "시그넷이브이",
-    "market": "KONEX",
-    "sector": "전기장비",
-    "subSector": "전기차 충전기",
-    "description": "전기차 충전기"
-  },
-  {
-    "code": "236030",
-    "name": "씨알푸드",
-    "market": "KONEX",
-    "sector": "식품",
-    "subSector": "시리얼, 시리얼바",
-    "description": "시리얼, 시리얼바"
-  },
-  {
-    "code": "251960",
-    "name": "엠에프엠코리아",
-    "market": "KONEX",
-    "sector": "편조의복 제조업",
-    "subSector": "남녀 및 유아용의 외의, 내의 및 기타 의복",
-    "description": "남녀 및 유아용의 외의, 내의 및 기타 의복"
-  },
-  {
-    "code": "240340",
-    "name": "인터코스",
-    "market": "KONEX",
-    "sector": "기타 화학제품 제조업",
-    "subSector": "스킨로션, 기능성제품류, 헤어제품류, 의약외품 등(화장품 ODM)",
-    "description": "스킨로션, 기능성제품류, 헤어제품류, 의약외품 등(화장품 ODM)"
-  },
-  {
-    "code": "120780",
-    "name": "전우정밀",
-    "market": "KONEX",
-    "sector": "자동차 신품 부품 제조업",
-    "subSector": "차량 도어부품 등",
-    "description": "차량 도어부품 등"
-  },
-  {
-    "code": "221670",
-    "name": "주노콜렉션",
-    "market": "KONEX",
-    "sector": "가죽, 가방 및 유사제품 제조업",
-    "subSector": "핸드백, 지갑 등",
-    "description": "핸드백, 지갑 등"
-  },
-  {
-    "code": "229480",
-    "name": "줌인터넷",
-    "market": "KONEX",
-    "sector": "자료처리, 호스팅, 포털 및 기타 인터넷 정보매개 서비스업",
-    "subSector": "줌닷컴, 이글루스, 스윙브라우저 등",
-    "description": "줌닷컴, 이글루스, 스윙브라우저 등"
-  },
-  {
-    "code": "242350",
-    "name": "피엔아이컴퍼니",
-    "market": "KONEX",
-    "sector": "영화, 비디오물, 방송프로그램 제작 및 배급업",
-    "subSector": "3D 애니메이션, 3D VR 시뮬레이터 및 콘텐츠",
-    "description": "3D 애니메이션, 3D VR 시뮬레이터 및 콘텐츠"
-  },
-  {
-    "code": "244880",
-    "name": "나눔테크",
-    "market": "KONEX",
-    "sector": "건강관리장비와용품",
-    "subSector": "자동심장충격기, 골밀도진단기",
-    "description": "자동심장충격기, 골밀도진단기"
-  },
-  {
-    "code": "225850",
-    "name": "미애부",
-    "market": "KONEX",
-    "sector": "생활용품 도매업",
-    "subSector": "친환경, 무합성 발효화장품",
-    "description": "친환경, 무합성 발효화장품"
-  },
-  {
-    "code": "210610",
-    "name": "소프트캠프",
-    "market": "KONEX",
-    "sector": "소프트웨어 개발 및 공급업",
-    "subSector": "문서보안소프트웨어, 영역보안 소프트웨어, 키보드보안 소프트웨어",
-    "description": "문서보안소프트웨어, 영역보안 소프트웨어, 키보드보안 소프트웨어"
-  },
-  {
-    "code": "103660",
-    "name": "씨앗",
-    "market": "KONEX",
-    "sector": "화학",
-    "subSector": "잉크리본, 인화지",
-    "description": "잉크리본, 인화지"
-  },
-  {
-    "code": "121060",
-    "name": "유니포인트",
-    "market": "KONEX",
-    "sector": "IT서비스",
-    "subSector": "소프트웨어 개발, 도소매컴퓨터시스템 설계, 자문",
-    "description": "소프트웨어 개발, 도소매컴퓨터시스템 설계, 자문"
-  },
-  {
-    "code": "215570",
-    "name": "크로넥스",
-    "market": "KONEX",
-    "sector": "생물공학",
-    "subSector": "CRO 및 생물종(미니피그)",
-    "description": "CRO 및 생물종(미니피그)"
-  },
-  {
-    "code": "180060",
-    "name": "탑선",
-    "market": "KONEX",
-    "sector": "에너지장비및서비스",
-    "subSector": "태양광 모듈",
-    "description": "태양광 모듈"
-  },
-  {
-    "code": "217880",
-    "name": "틸론",
-    "market": "KONEX",
-    "sector": "IT서비스",
-    "subSector": "Cloud Solution (D,A,E,Rstation)",
-    "description": "Cloud Solution (D,A,E,Rstation)"
-  },
-  {
-    "code": "212310",
-    "name": "휴벡셀",
-    "market": "KONEX",
-    "sector": "건강관리장비와용품",
-    "subSector": "척추용 임플란트 등",
-    "description": "척추용 임플란트 등"
-  },
-  {
-    "code": "284610",
-    "name": "TS트릴리온",
-    "market": "KONEX",
-    "sector": "기타 화학제품 제조업",
-    "subSector": "탈모 샴푸 및 헤어케어 제품 등",
-    "description": "탈모 샴푸 및 헤어케어 제품 등"
-  },
-  {
-    "code": "183410",
-    "name": "골프존데카",
-    "market": "KONEX",
-    "sector": "측정, 시험, 항해, 제어 및 기타 정밀기기 제조업; 광학기기 제외",
-    "subSector": "골프거리측정기",
-    "description": "골프거리측정기"
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "원포유 (KONEX 상장)"
   },
   {
     "code": "076340",
-    "name": "관악산업",
+    "name": "지에이이노더스",
     "market": "KONEX",
-    "sector": "건설",
-    "subSector": "수중공사, 준설공사 등",
-    "description": "수중공사, 준설공사 등"
-  },
-  {
-    "code": "229500",
-    "name": "노브메타파마",
-    "market": "KONEX",
-    "sector": "식품",
-    "subSector": "대사질환 신약 개발 및 건강기능식픔",
-    "description": "대사질환 신약 개발 및 건강기능식픔"
-  },
-  {
-    "code": "220110",
-    "name": "드림티엔터테인먼트",
-    "market": "KONEX",
-    "sector": "그외 기타 전문, 과학 및 기술 서비스업",
-    "subSector": "매니지먼트, 음반(음원)",
-    "description": "매니지먼트, 음반(음원)"
-  },
-  {
-    "code": "236340",
-    "name": "메디젠휴먼케어",
-    "market": "KONEX",
-    "sector": "생명과학도구및서비스",
-    "subSector": "M-CHECK (개인별 유전적 질병 예측 서비스)",
-    "description": "M-CHECK (개인별 유전적 질병 예측 서비스)"
-  },
-  {
-    "code": "281310",
-    "name": "바이오시네틱스",
-    "market": "KONEX",
-    "sector": "자연과학 및 공학 연구개발업",
-    "subSector": "나노의약품 및 소재, 약물전달시스템(DDS)",
-    "description": "나노의약품 및 소재, 약물전달시스템(DDS)"
-  },
-  {
-    "code": "185190",
-    "name": "수프로",
-    "market": "KONEX",
-    "sector": "상업서비스와공급품",
-    "subSector": "조경수용 수목",
-    "description": "조경수용 수목"
-  },
-  {
-    "code": "271400",
-    "name": "알로이스",
-    "market": "KONEX",
-    "sector": "통신 및 방송 장비 제조업",
-    "subSector": "위성 및 IPTV용 셋톱박스",
-    "description": "위성 및 IPTV용 셋톱박스"
-  },
-  {
-    "code": "086460",
-    "name": "에스엔피제네틱스",
-    "market": "KONEX",
-    "sector": "자연과학 및 공학 연구개발업",
-    "subSector": "유전체 분석 서비스",
-    "description": "유전체 분석 서비스"
-  },
-  {
-    "code": "183350",
-    "name": "엘피케이",
-    "market": "KONEX",
-    "sector": "특수 목적용 기계 제조업",
-    "subSector": "직교좌표로봇",
-    "description": "직교좌표로봇"
-  },
-  {
-    "code": "258050",
-    "name": "테크트랜스",
-    "market": "KONEX",
-    "sector": "비철금속",
-    "subSector": "비철금속표면처리장비 및 솔루션",
-    "description": "비철금속표면처리장비 및 솔루션"
-  },
-  {
-    "code": "191600",
-    "name": "티케이씨",
-    "market": "KONEX",
-    "sector": "전자장비와기기",
-    "subSector": "전자장비와기기",
-    "description": "티케이씨 (KONEX 상장)"
-  },
-  {
-    "code": "284420",
-    "name": "휴럼",
-    "market": "KONEX",
-    "sector": "기타 식품 제조업",
-    "subSector": "건강기능식품, 유산균 관련 제품",
-    "description": "건강기능식품, 유산균 관련 제품"
-  },
-  {
-    "code": "224880",
-    "name": "SGA임베디드",
-    "market": "KONEX",
-    "sector": "소프트웨어 개발 및 공급업",
-    "subSector": "임베디드 소프트웨어 및 하드웨어",
-    "description": "임베디드 소프트웨어 및 하드웨어"
-  },
-  {
-    "code": "223220",
-    "name": "구름게임즈앤컴퍼니",
-    "market": "KONEX",
-    "sector": "항공화물운송과물류",
-    "subSector": "모바일 컨텐츠 개발 및 유통",
-    "description": "모바일 컨텐츠 개발 및 유통"
-  },
-  {
-    "code": "167380",
-    "name": "나무기술",
-    "market": "KONEX",
-    "sector": "소프트웨어 개발 및 공급업",
-    "subSector": "소프트웨어 개발,공급",
-    "description": "소프트웨어 개발,공급"
-  },
-  {
-    "code": "114920",
-    "name": "대주이엔티",
-    "market": "KONEX",
-    "sector": "기계",
-    "subSector": "이중보온관, 엘리베이터 가이드 레일",
-    "description": "이중보온관, 엘리베이터 가이드 레일"
-  },
-  {
-    "code": "302920",
-    "name": "더콘텐츠온",
-    "market": "KONEX",
-    "sector": "방송과엔터테인먼트",
-    "subSector": "영화제작, 투자, 배급 및 영화디지털배급",
-    "description": "영화제작, 투자, 배급 및 영화디지털배급"
-  },
-  {
-    "code": "200580",
-    "name": "메디쎄이",
-    "market": "KONEX",
-    "sector": "건강관리장비와용품",
-    "subSector": "정형외과용 척추임플란트",
-    "description": "정형외과용 척추임플란트"
-  },
-  {
-    "code": "222160",
-    "name": "바이옵트로",
-    "market": "KONEX",
-    "sector": "측정, 시험, 항해, 제어 및 기타 정밀기기 제조업; 광학기기 제외",
-    "subSector": "PCB 전기 검사기, Screw 자동 체결기",
-    "description": "PCB 전기 검사기, Screw 자동 체결기"
-  },
-  {
-    "code": "206950",
-    "name": "볼빅",
-    "market": "KONEX",
-    "sector": "레저용장비와제품",
-    "subSector": "골프공",
-    "description": "골프공"
-  },
-  {
-    "code": "258540",
-    "name": "스템랩",
-    "market": "KONEX",
-    "sector": "자연과학 및 공학 연구개발업",
-    "subSector": "줄기세포치료제, 화장품, 전자의료기기 등",
-    "description": "줄기세포치료제, 화장품, 전자의료기기 등"
-  },
-  {
-    "code": "224810",
-    "name": "엄지하우스",
-    "market": "KONEX",
-    "sector": "건설",
-    "subSector": "실내건축업, 분양공사 및 디자인 설계",
-    "description": "실내건축업, 분양공사 및 디자인 설계"
-  },
-  {
-    "code": "208890",
-    "name": "에듀파트너",
-    "market": "KONEX",
-    "sector": "교육서비스",
-    "subSector": "방과후 교육",
-    "description": "방과후 교육"
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "지에이이노더스 (KONEX 상장)"
   },
   {
     "code": "276240",
     "name": "엘리비젼",
     "market": "KONEX",
-    "sector": "상업서비스와공급품",
-    "subSector": "디지털 사이니지, 키오스크 등",
-    "description": "디지털 사이니지, 키오스크 등"
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "엘리비젼 (KONEX 상장)"
   },
   {
-    "code": "225860",
-    "name": "엠앤씨생명과학",
+    "code": "217880",
+    "name": "틸론",
     "market": "KONEX",
-    "sector": "기타 화학제품 제조업",
-    "subSector": "무합성화장품, 건강기능식품",
-    "description": "무합성화장품, 건강기능식품"
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "틸론 (KONEX 상장)"
   },
   {
-    "code": "242850",
-    "name": "영현무역",
+    "code": "102950",
+    "name": "아하",
     "market": "KONEX",
-    "sector": "상품 중개업",
-    "subSector": "의류(봉제)",
-    "description": "의류(봉제)"
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "아하 (KONEX 상장)"
   },
   {
-    "code": "140660",
-    "name": "위월드",
+    "code": "296160",
+    "name": "프로젠",
     "market": "KONEX",
-    "sector": "자동차부품",
-    "subSector": "이동위성통신안테나, 위성방송시스템",
-    "description": "이동위성통신안테나, 위성방송시스템"
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "프로젠 (KONEX 상장)"
   },
   {
-    "code": "066830",
-    "name": "제노텍",
+    "code": "250030",
+    "name": "진코스텍",
     "market": "KONEX",
-    "sector": "생물공학",
-    "subSector": "원료의약품, 합성유전자, 체외진단 분석기용 시약",
-    "description": "원료의약품, 합성유전자, 체외진단 분석기용 시약"
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "진코스텍 (KONEX 상장)"
   },
   {
-    "code": "222670",
-    "name": "플럼라인생명과학",
+    "code": "260870",
+    "name": "SK시그넷",
     "market": "KONEX",
-    "sector": "제약",
-    "subSector": "강아지암치료제,돼지DNA테라피",
-    "description": "강아지암치료제,돼지DNA테라피"
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "SK시그넷 (KONEX 상장)"
   },
   {
-    "code": "216400",
-    "name": "바이오코아",
+    "code": "215570",
+    "name": "크로넥스",
     "market": "KONEX",
-    "sector": "생물공학",
-    "subSector": "CRO(분석/생동/임상) 서비스, 유전체 분석 및 유전체 분석제품 개발 ",
-    "description": "CRO(분석/생동/임상) 서비스, 유전체 분석 및 유전체 분석제품 개발 등"
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "크로넥스 (KONEX 상장)"
   },
   {
-    "code": "215050",
-    "name": "비엔디생활건강",
+    "code": "322970",
+    "name": "무진메디",
     "market": "KONEX",
-    "sector": "기타 화학제품 제조업",
-    "subSector": "세탁용 세제",
-    "description": "세탁용 세제"
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "무진메디 (KONEX 상장)"
   },
   {
-    "code": "110660",
-    "name": "세신버팔로",
+    "code": "140610",
+    "name": "엔솔바이오사이언스",
     "market": "KONEX",
-    "sector": "기타 금속 가공제품 제조업",
-    "subSector": "수공구",
-    "description": "수공구"
-  },
-  {
-    "code": "217320",
-    "name": "썬테크",
-    "market": "KONEX",
-    "sector": "전기장비",
-    "subSector": "자기진단형 발전기, 영구자석 회전자 발전기",
-    "description": "자기진단형 발전기, 영구자석 회전자 발전기"
-  },
-  {
-    "code": "245450",
-    "name": "씨앤에스링크",
-    "market": "KONEX",
-    "sector": "통신장비",
-    "subSector": "내비게이션, LTE Router, 블랙박스",
-    "description": "내비게이션, LTE Router, 블랙박스"
-  },
-  {
-    "code": "149010",
-    "name": "아이케이세미콘",
-    "market": "KONEX",
-    "sector": "반도체와반도체장비",
-    "subSector": "비메모리 반도체",
-    "description": "비메모리 반도체"
-  },
-  {
-    "code": "270210",
-    "name": "에스알바이오텍",
-    "market": "KONEX",
-    "sector": "화장품",
-    "subSector": "화장품 제조 및 유통",
-    "description": "화장품 제조 및 유통"
-  },
-  {
-    "code": "299670",
-    "name": "에스엠비나",
-    "market": "KONEX",
-    "sector": "봉제의복 제조업",
-    "subSector": "여성의류",
-    "description": "여성의류"
-  },
-  {
-    "code": "179720",
-    "name": "옐로페이",
-    "market": "KONEX",
-    "sector": "기타금융",
-    "subSector": "전자지급결제 서비스",
-    "description": "전자지급결제 서비스"
-  },
-  {
-    "code": "241510",
-    "name": "이에스산업",
-    "market": "KONEX",
-    "sector": "일반 목적용 기계 제조업",
-    "subSector": "전동공구",
-    "description": "전동공구"
-  },
-  {
-    "code": "247300",
-    "name": "인프라웨어테크놀러지",
-    "market": "KONEX",
-    "sector": "소프트웨어 개발 및 공급업",
-    "subSector": "플랫폼, 보안솔루션",
-    "description": "플랫폼, 보안솔루션"
-  },
-  {
-    "code": "230400",
-    "name": "자비스",
-    "market": "KONEX",
-    "sector": "의료용 기기 제조업",
-    "subSector": "X-ray 검사장비",
-    "description": "X-ray 검사장비"
-  },
-  {
-    "code": "140290",
-    "name": "청광종건",
-    "market": "KONEX",
-    "sector": "토목 건설업",
-    "subSector": "관도급, BTL, 자체사업",
-    "description": "관도급, BTL, 자체사업"
-  },
-  {
-    "code": "228180",
-    "name": "티씨엠생명과학",
-    "market": "KONEX",
-    "sector": "자연과학 및 공학 연구개발업",
-    "subSector": "체외진단서비스 개발 및 진단 용역",
-    "description": "체외진단서비스 개발 및 진단 용역"
-  },
-  {
-    "code": "217950",
-    "name": "파마리서치바이오",
-    "market": "KONEX",
-    "sector": "제약",
-    "subSector": "의약품 연구개발, 컨설팅",
-    "description": "의약품 연구개발, 컨설팅"
-  },
-  {
-    "code": "226610",
-    "name": "한국비엔씨",
-    "market": "KONEX",
-    "sector": "의료용 기기 제조업",
-    "subSector": "HA필러, 유착방지제, 콜라겐흡수성창상피복재",
-    "description": "HA필러, 유착방지제, 콜라겐흡수성창상피복재"
-  },
-  {
-    "code": "112190",
-    "name": "KC산업",
-    "market": "KONEX",
-    "sector": "건축자재",
-    "subSector": "철강보강콘크리트제품",
-    "description": "철강보강콘크리트제품"
-  },
-  {
-    "code": "271850",
-    "name": "다이오진",
-    "market": "KONEX",
-    "sector": "자연과학 및 공학 연구개발업",
-    "subSector": "분자진단서비스, 분자진단Kit",
-    "description": "분자진단서비스, 분자진단Kit"
-  },
-  {
-    "code": "199150",
-    "name": "데이터스트림즈",
-    "market": "KONEX",
-    "sector": "IT서비스",
-    "subSector": "TeraStream",
-    "description": "TeraStream"
-  },
-  {
-    "code": "092590",
-    "name": "럭스피아",
-    "market": "KONEX",
-    "sector": "디스플레이장비및부품",
-    "subSector": "LED 패키지, LED 모듈",
-    "description": "LED 패키지, LED 모듈"
-  },
-  {
-    "code": "267060",
-    "name": "명진홀딩스",
-    "market": "KONEX",
-    "sector": "수산물 가공 및 저장 처리업",
-    "subSector": "연어 가공 식품(필렛, HMR)",
-    "description": "연어 가공 식품(필렛, HMR)"
-  },
-  {
-    "code": "242420",
-    "name": "본느",
-    "market": "KONEX",
-    "sector": "기타 화학제품 제조업",
-    "subSector": "ODM화장품, BRAND화장품",
-    "description": "ODM화장품, BRAND화장품"
-  },
-  {
-    "code": "266170",
-    "name": "뿌리깊은나무들",
-    "market": "KONEX",
-    "sector": "방송과엔터테인먼트",
-    "subSector": "TV 드라마 등",
-    "description": "TV 드라마 등"
-  },
-  {
-    "code": "135270",
-    "name": "세종머티리얼즈",
-    "market": "KONEX",
-    "sector": "1차 비철금속 제조업",
-    "subSector": "비철금속, PCB 제조 등",
-    "description": "비철금속, PCB 제조 등"
-  },
-  {
-    "code": "258250",
-    "name": "셀젠텍",
-    "market": "KONEX",
-    "sector": "소프트웨어 개발 및 공급업",
-    "subSector": "C-Manager, LabBio+, S-Keeper",
-    "description": "C-Manager, LabBio+, S-Keeper"
-  },
-  {
-    "code": "158300",
-    "name": "에스에이티이엔지",
-    "market": "KONEX",
-    "sector": "특수 목적용 기계 제조업",
-    "subSector": "FPD Bonding System, Inspection System",
-    "description": "FPD Bonding System, Inspection System"
-  },
-  {
-    "code": "217910",
-    "name": "에스제이켐",
-    "market": "KONEX",
-    "sector": "화학",
-    "subSector": "수처리응집제, 폴리프로필렌",
-    "description": "수처리응집제, 폴리프로필렌"
-  },
-  {
-    "code": "216280",
-    "name": "원텍",
-    "market": "KONEX",
-    "sector": "의료용 기기 제조업",
-    "subSector": "의료용 기기 제조업",
-    "description": "원텍 (KONEX 상장)"
-  },
-  {
-    "code": "299480",
-    "name": "지앤이바이오텍",
-    "market": "KONEX",
-    "sector": "가정용품",
-    "subSector": "면생리대",
-    "description": "면생리대"
-  },
-  {
-    "code": "220250",
-    "name": "카이노스메드",
-    "market": "KONEX",
-    "sector": "자연과학 및 공학 연구개발업",
-    "subSector": "뇌질환치료제, 항암제, 항바이러스제",
-    "description": "뇌질환치료제, 항암제, 항바이러스제"
-  },
-  {
-    "code": "202960",
-    "name": "판도라티비",
-    "market": "KONEX",
-    "sector": "양방향미디어와서비스",
-    "subSector": "판도라TV, KM 플레이어",
-    "description": "판도라TV, KM 플레이어"
-  },
-  {
-    "code": "176560",
-    "name": "포인트엔지니어링",
-    "market": "KONEX",
-    "sector": "기타 금속 가공제품 제조업",
-    "subSector": "디스플레이 패널 및 반도체 생산장비부품",
-    "description": "디스플레이 패널 및 반도체 생산장비부품"
-  },
-  {
-    "code": "272420",
-    "name": "극동자동화",
-    "market": "KONEX",
-    "sector": "전기 및 통신 공사업",
-    "subSector": "통신 및 보안시스템 구축, 선박엔진 유압장치(HPS)",
-    "description": "통신 및 보안시스템 구축, 선박엔진 유압장치(HPS)"
-  },
-  {
-    "code": "086220",
-    "name": "네추럴FNP",
-    "market": "KONEX",
-    "sector": "건강관리업체및서비스",
-    "subSector": "건강기능식품",
-    "description": "건강기능식품"
-  },
-  {
-    "code": "270020",
-    "name": "두원석재",
-    "market": "KONEX",
-    "sector": "토사석 광업",
-    "subSector": "규석, 골재, 석재(조경석)",
-    "description": "규석, 골재, 석재(조경석)"
-  },
-  {
-    "code": "233250",
-    "name": "메디안디노스틱",
-    "market": "KONEX",
-    "sector": "건강관리장비와용품",
-    "subSector": "동물질병 체외진단키트 및 진단용 시약",
-    "description": "동물질병 체외진단키트 및 진단용 시약"
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "엔솔바이오사이언스 (KONEX 상장)"
   },
   {
     "code": "251280",
     "name": "안지오랩",
     "market": "KONEX",
-    "sector": "건강관리업체및서비스",
-    "subSector": "신약개발 및 체지방 감소 건강기능식품",
-    "description": "신약개발 및 체지방 감소 건강기능식품"
-  },
-  {
-    "code": "224020",
-    "name": "에스케이씨에스",
-    "market": "KONEX",
-    "sector": "플라스틱제품 제조업",
-    "subSector": "플라스틱제품 제조업",
-    "description": "에스케이씨에스 (KONEX 상장)"
-  },
-  {
-    "code": "227420",
-    "name": "오백볼트",
-    "market": "KONEX",
-    "sector": "섬유,의류,신발,호화품",
-    "subSector": "일반경영, 전략기획 자문 (엑셀러레이터, M&A)",
-    "description": "일반경영, 전략기획 자문 (엑셀러레이터, M&A)"
-  },
-  {
-    "code": "252370",
-    "name": "유쎌",
-    "market": "KONEX",
-    "sector": "기타 화학제품 제조업",
-    "subSector": "바이오셀룰로오스 마스크팩",
-    "description": "바이오셀룰로오스 마스크팩"
-  },
-  {
-    "code": "208850",
-    "name": "이비테크",
-    "market": "KONEX",
-    "sector": "전기장비",
-    "subSector": "전자가속기 제조 및 전자선조사서비스",
-    "description": "전자가속기 제조 및 전자선조사서비스"
-  },
-  {
-    "code": "232530",
-    "name": "이엠티",
-    "market": "KONEX",
-    "sector": "전기제품",
-    "subSector": "이차전지 양극재용 전구체",
-    "description": "이차전지 양극재용 전구체"
-  },
-  {
-    "code": "250300",
-    "name": "제이에스피브이",
-    "market": "KONEX",
-    "sector": "기타 전기장비 제조업",
-    "subSector": "태양광모듈제조",
-    "description": "태양광모듈제조"
-  },
-  {
-    "code": "205290",
-    "name": "케미메디",
-    "market": "KONEX",
-    "sector": "자연과학 및 공학 연구개발업",
-    "subSector": "천연물·합성 신약개발 및 건강식품 제조·판매 (모가득 어성초, 스피루리나",
-    "description": "천연물·합성 신약개발 및 건강식품 제조·판매 (모가득 어성초, 스피루리나 등)"
-  },
-  {
-    "code": "136660",
-    "name": "큐엠씨",
-    "market": "KONEX",
-    "sector": "반도체와반도체장비",
-    "subSector": "반도체, LED, FPD 제조 및 검사 장비",
-    "description": "반도체, LED, FPD 제조 및 검사 장비"
-  },
-  {
-    "code": "266870",
-    "name": "파워풀엑스",
-    "market": "KONEX",
-    "sector": "생활용품 도매업",
-    "subSector": "플렉스파워 리커버리크림",
-    "description": "플렉스파워 리커버리크림"
-  },
-  {
-    "code": "233990",
-    "name": "하우동천",
-    "market": "KONEX",
-    "sector": "가정용품",
-    "subSector": "여성청결제 및 질염치료제 개발",
-    "description": "여성청결제 및 질염치료제 개발"
-  },
-  {
-    "code": "243870",
-    "name": "굿센",
-    "market": "KONEX",
-    "sector": "IT서비스",
-    "subSector": "건설ERP, 공공클라우드",
-    "description": "건설ERP, 공공클라우드"
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "안지오랩 (KONEX 상장)"
   },
   {
     "code": "162120",
     "name": "루켄테크놀러지스",
     "market": "KONEX",
-    "sector": "디스플레이장비및부품",
-    "subSector": "반도체 및 디스플레이 검사장비 및 검사부품",
-    "description": "반도체 및 디스플레이 검사장비 및 검사부품"
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "루켄테크놀러지스 (KONEX 상장)"
   },
   {
-    "code": "245030",
-    "name": "스페이스솔루션",
+    "code": "217910",
+    "name": "에스제이켐",
     "market": "KONEX",
-    "sector": "소프트웨어 개발 및 공급업",
-    "subSector": "엔지니어링 솔루션(CAD/CAM/CAE/PLM/DM) 및 자수기제어기",
-    "description": "엔지니어링 솔루션(CAD/CAM/CAE/PLM/DM) 및 자수기제어기"
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "에스제이켐 (KONEX 상장)"
   },
   {
-    "code": "189540",
-    "name": "씨티네트웍스",
+    "code": "266470",
+    "name": "바이오인프라생명과학",
     "market": "KONEX",
-    "sector": "통신 및 방송 장비 제조업",
-    "subSector": "광통신소재 및 광접속류품",
-    "description": "광통신소재 및 광접속류품"
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "바이오인프라생명과학 (KONEX 상장)"
   },
   {
-    "code": "267810",
-    "name": "앙츠",
+    "code": "331660",
+    "name": "한국미라클피플사",
     "market": "KONEX",
-    "sector": "컴퓨터 및 통신장비 수리업",
-    "subSector": "기술서비스",
-    "description": "기술서비스"
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "한국미라클피플사 (KONEX 상장)"
   },
   {
-    "code": "234070",
-    "name": "에이원알폼",
+    "code": "311060",
+    "name": "엘에이티",
     "market": "KONEX",
-    "sector": "건축자재",
-    "subSector": "건설현장용 알루미늄 거푸집 임대",
-    "description": "건설현장용 알루미늄 거푸집 임대"
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "엘에이티 (KONEX 상장)"
   },
   {
-    "code": "140610",
-    "name": "엔솔바이오",
+    "code": "232530",
+    "name": "이엠티",
     "market": "KONEX",
-    "sector": "제약",
-    "subSector": "퇴행성디스크 치료제, 골관절염 치료제, 동물용 골관절염 치료제",
-    "description": "퇴행성디스크 치료제, 골관절염 치료제, 동물용 골관절염 치료제"
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "이엠티 (KONEX 상장)"
   },
   {
-    "code": "224760",
-    "name": "엔에스컴퍼니",
+    "code": "227420",
+    "name": "도부",
     "market": "KONEX",
-    "sector": "에너지장비및서비스",
-    "subSector": "산업플랜트 건설 및 경상정비, 자동차부품제조판매",
-    "description": "산업플랜트 건설 및 경상정비, 자동차부품제조판매"
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "도부 (KONEX 상장)"
   },
   {
-    "code": "262760",
-    "name": "엔케이맥스",
+    "code": "092590",
+    "name": "럭스피아",
     "market": "KONEX",
-    "sector": "의약품 제조업",
-    "subSector": "NK세포치료제",
-    "description": "NK세포치료제"
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "럭스피아 (KONEX 상장)"
   },
   {
-    "code": "135160",
-    "name": "지오씨",
+    "code": "233990",
+    "name": "질경이",
     "market": "KONEX",
-    "sector": "절연선 및 케이블 제조업",
-    "subSector": "옥내외용케이블",
-    "description": "옥내외용케이블"
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "질경이 (KONEX 상장)"
   },
   {
-    "code": "189350",
-    "name": "코셋",
+    "code": "229500",
+    "name": "노브메타파마",
     "market": "KONEX",
-    "sector": "통신장비",
-    "subSector": "광통신용 증폭기",
-    "description": "광통신용 증폭기"
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "노브메타파마 (KONEX 상장)"
+  },
+  {
+    "code": "216400",
+    "name": "인바이츠바이오코아",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "인바이츠바이오코아 (KONEX 상장)"
+  },
+  {
+    "code": "337840",
+    "name": "유엑스엔",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "유엑스엔 (KONEX 상장)"
+  },
+  {
+    "code": "217950",
+    "name": "파마리서치바이오",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "파마리서치바이오 (KONEX 상장)"
+  },
+  {
+    "code": "179720",
+    "name": "머니무브",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "머니무브 (KONEX 상장)"
+  },
+  {
+    "code": "390110",
+    "name": "애니메디솔루션",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "애니메디솔루션 (KONEX 상장)"
+  },
+  {
+    "code": "434190",
+    "name": "탈로스",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "탈로스 (KONEX 상장)"
+  },
+  {
+    "code": "180060",
+    "name": "탑선",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "탑선 (KONEX 상장)"
+  },
+  {
+    "code": "224810",
+    "name": "엄지하우스",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "엄지하우스 (KONEX 상장)"
+  },
+  {
+    "code": "317860",
+    "name": "노드메이슨",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "노드메이슨 (KONEX 상장)"
+  },
+  {
+    "code": "403810",
+    "name": "아이엘로보틱스",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "아이엘로보틱스 (KONEX 상장)"
   },
   {
     "code": "116100",
     "name": "태양기계",
     "market": "KONEX",
-    "sector": "자동차부품",
-    "subSector": "엔진부품",
-    "description": "엔진부품"
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "태양기계 (KONEX 상장)"
+  },
+  {
+    "code": "354390",
+    "name": "바스칸바이오제약",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "바스칸바이오제약 (KONEX 상장)"
+  },
+  {
+    "code": "169670",
+    "name": "코스텍시스템",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "코스텍시스템 (KONEX 상장)"
+  },
+  {
+    "code": "243870",
+    "name": "아이티센코어",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "아이티센코어 (KONEX 상장)"
+  },
+  {
+    "code": "236030",
+    "name": "씨알푸드",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "씨알푸드 (KONEX 상장)"
+  },
+  {
+    "code": "318660",
+    "name": "타임기술",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "타임기술 (KONEX 상장)"
+  },
+  {
+    "code": "270210",
+    "name": "에스알바이오텍",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "에스알바이오텍 (KONEX 상장)"
+  },
+  {
+    "code": "0070X0",
+    "name": "에스테크엠",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "에스테크엠 (KONEX 상장)"
+  },
+  {
+    "code": "121060",
+    "name": "유니포인트",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "유니포인트 (KONEX 상장)"
+  },
+  {
+    "code": "236340",
+    "name": "메디젠휴먼케어",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "메디젠휴먼케어 (KONEX 상장)"
+  },
+  {
+    "code": "202960",
+    "name": "판도라티비",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "판도라티비 (KONEX 상장)"
+  },
+  {
+    "code": "245450",
+    "name": "씨앤에스링크",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "씨앤에스링크 (KONEX 상장)"
+  },
+  {
+    "code": "403360",
+    "name": "라피치",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "라피치 (KONEX 상장)"
   },
   {
     "code": "278990",
-    "name": "파인이엠텍",
+    "name": "EMB",
     "market": "KONEX",
-    "sector": "판매업체",
-    "subSector": "차량용 AVN, 휴대폰 액세서리",
-    "description": "차량용 AVN, 휴대폰 액세서리"
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "EMB (KONEX 상장)"
   },
   {
-    "code": "150440",
-    "name": "피노텍",
+    "code": "176590",
+    "name": "코나솔",
     "market": "KONEX",
-    "sector": "소프트웨어 개발 및 공급업",
-    "subSector": "인터넷전자등기시스템, 비대면금융거래플랫폼, 로보카운슬링 솔루션, 비대면실",
-    "description": "인터넷전자등기시스템, 비대면금융거래플랫폼, 로보카운슬링 솔루션, 비대면실명확인 솔루션"
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "코나솔 (KONEX 상장)"
+  },
+  {
+    "code": "302920",
+    "name": "더콘텐츠온",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "더콘텐츠온 (KONEX 상장)"
+  },
+  {
+    "code": "448780",
+    "name": "마이크로엔엑스",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "마이크로엔엑스 (KONEX 상장)"
+  },
+  {
+    "code": "311960",
+    "name": "인터로이드",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "인터로이드 (KONEX 상장)"
+  },
+  {
+    "code": "114920",
+    "name": "대주이엔티",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "대주이엔티 (KONEX 상장)"
+  },
+  {
+    "code": "103660",
+    "name": "씨앗",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "씨앗 (KONEX 상장)"
+  },
+  {
+    "code": "200580",
+    "name": "메디쎄이",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "메디쎄이 (KONEX 상장)"
+  },
+  {
+    "code": "244880",
+    "name": "나눔테크",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "나눔테크 (KONEX 상장)"
+  },
+  {
+    "code": "402420",
+    "name": "켈스",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "켈스 (KONEX 상장)"
+  },
+  {
+    "code": "413300",
+    "name": "티엘엔지니어링",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "티엘엔지니어링 (KONEX 상장)"
+  },
+  {
+    "code": "185190",
+    "name": "수프로",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "수프로 (KONEX 상장)"
+  },
+  {
+    "code": "112190",
+    "name": "KC산업",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "KC산업 (KONEX 상장)"
+  },
+  {
+    "code": "086220",
+    "name": "광동헬스바이오",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "광동헬스바이오 (KONEX 상장)"
+  },
+  {
+    "code": "178600",
+    "name": "대동고려삼",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "대동고려삼 (KONEX 상장)"
+  },
+  {
+    "code": "336040",
+    "name": "타스컴",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "타스컴 (KONEX 상장)"
+  },
+  {
+    "code": "254160",
+    "name": "제이엠멀티",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "제이엠멀티 (KONEX 상장)"
+  },
+  {
+    "code": "289170",
+    "name": "바이오텐",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "바이오텐 (KONEX 상장)"
+  },
+  {
+    "code": "296520",
+    "name": "가이아코퍼레이션",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "가이아코퍼레이션 (KONEX 상장)"
+  },
+  {
+    "code": "456570",
+    "name": "아이엠지티",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "아이엠지티 (KONEX 상장)"
+  },
+  {
+    "code": "191600",
+    "name": "블루탑",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "블루탑 (KONEX 상장)"
+  },
+  {
+    "code": "446440",
+    "name": "에피바이오텍",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "에피바이오텍 (KONEX 상장)"
+  },
+  {
+    "code": "351020",
+    "name": "미쥬",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "미쥬 (KONEX 상장)"
+  },
+  {
+    "code": "207490",
+    "name": "에이펙스인텍",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "에이펙스인텍 (KONEX 상장)"
+  },
+  {
+    "code": "208850",
+    "name": "이비테크",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "이비테크 (KONEX 상장)"
+  },
+  {
+    "code": "199150",
+    "name": "데이터스트림즈",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "데이터스트림즈 (KONEX 상장)"
+  },
+  {
+    "code": "447690",
+    "name": "아이오바이오",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "아이오바이오 (KONEX 상장)"
+  },
+  {
+    "code": "136660",
+    "name": "큐엠씨",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "큐엠씨 (KONEX 상장)"
+  },
+  {
+    "code": "206950",
+    "name": "볼빅",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "볼빅 (KONEX 상장)"
+  },
+  {
+    "code": "234070",
+    "name": "에이원큐브텍",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "에이원큐브텍 (KONEX 상장)"
+  },
+  {
+    "code": "253610",
+    "name": "루트락",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "루트락 (KONEX 상장)"
+  },
+  {
+    "code": "140660",
+    "name": "위월드",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "위월드 (KONEX 상장)"
+  },
+  {
+    "code": "496320",
+    "name": "본시스템즈",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "본시스템즈 (KONEX 상장)"
+  },
+  {
+    "code": "238540",
+    "name": "나노솔루션",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "나노솔루션 (KONEX 상장)"
+  },
+  {
+    "code": "495810",
+    "name": "유비씨",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "유비씨 (KONEX 상장)"
+  },
+  {
+    "code": "0203K0",
+    "name": "송우인포텍",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "송우인포텍 (KONEX 상장)"
+  },
+  {
+    "code": "059180",
+    "name": "엔더블유시",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "엔더블유시 (KONEX 상장)"
+  },
+  {
+    "code": "222670",
+    "name": "플럼라인생명과학",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "플럼라인생명과학 (KONEX 상장)"
+  },
+  {
+    "code": "052960",
+    "name": "태양3C",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "태양3C (KONEX 상장)"
+  },
+  {
+    "code": "476710",
+    "name": "타조이엔터테인먼트",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "타조이엔터테인먼트 (KONEX 상장)"
+  },
+  {
+    "code": "379390",
+    "name": "이성씨엔아이",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "이성씨엔아이 (KONEX 상장)"
+  },
+  {
+    "code": "456190",
+    "name": "큐라켐",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "큐라켐 (KONEX 상장)"
+  },
+  {
+    "code": "149010",
+    "name": "아이케이세미콘",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "아이케이세미콘 (KONEX 상장)"
+  },
+  {
+    "code": "224760",
+    "name": "엔에스컴퍼니",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "엔에스컴퍼니 (KONEX 상장)"
+  },
+  {
+    "code": "238500",
+    "name": "솔루믹스",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "솔루믹스 (KONEX 상장)"
+  },
+  {
+    "code": "217320",
+    "name": "썬테크",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "썬테크 (KONEX 상장)"
+  },
+  {
+    "code": "233250",
+    "name": "메디안디노스틱",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "메디안디노스틱 (KONEX 상장)"
+  },
+  {
+    "code": "189350",
+    "name": "코셋",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "코셋 (KONEX 상장)"
+  },
+  {
+    "code": "212310",
+    "name": "오건에코텍",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "오건에코텍 (KONEX 상장)"
+  },
+  {
+    "code": "066830",
+    "name": "제노텍",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "제노텍 (KONEX 상장)"
+  },
+  {
+    "code": "199290",
+    "name": "바이오프로테크",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "바이오프로테크 (KONEX 상장)"
+  },
+  {
+    "code": "267080",
+    "name": "세븐브로이맥주",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "세븐브로이맥주 (KONEX 상장)"
+  },
+  {
+    "code": "341170",
+    "name": "퓨쳐메디신",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "퓨쳐메디신 (KONEX 상장)"
+  },
+  {
+    "code": "266350",
+    "name": "팡스카이",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "팡스카이 (KONEX 상장)"
+  },
+  {
+    "code": "258050",
+    "name": "테크트랜스",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "테크트랜스 (KONEX 상장)"
+  },
+  {
+    "code": "346010",
+    "name": "타이드",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "타이드 (KONEX 상장)"
+  },
+  {
+    "code": "332190",
+    "name": "오션스바이오",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "오션스바이오 (KONEX 상장)"
+  },
+  {
+    "code": "093510",
+    "name": "엔지브이아이",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "엔지브이아이 (KONEX 상장)"
+  },
+  {
+    "code": "208890",
+    "name": "미래엔에듀파트너",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "미래엔에듀파트너 (KONEX 상장)"
+  },
+  {
+    "code": "266170",
+    "name": "레드우즈",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "레드우즈 (KONEX 상장)"
+  },
+  {
+    "code": "279060",
+    "name": "이노벡스",
+    "market": "KONEX",
+    "sector": "코넥스 일반",
+    "subSector": "코넥스 상장",
+    "description": "이노벡스 (KONEX 상장)"
   }
 ]

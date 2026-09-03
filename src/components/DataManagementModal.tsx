@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Company, CompanyEvaluation } from '../types';
+import { Company, CompanyEvaluation, WatchlistEntry, WatchlistFolder } from '../types';
 import { Download, Upload, Check, AlertCircle, FileSpreadsheet, X } from 'lucide-react';
 
 interface DataManagementModalProps {
@@ -7,7 +7,14 @@ interface DataManagementModalProps {
   onClose: () => void;
   companies: Company[];
   evaluations: Record<string, CompanyEvaluation>;
-  onImportData: (importedCompanies: Company[], importedEvaluations: Record<string, CompanyEvaluation>) => void;
+  watchlist: Record<string, WatchlistEntry>;
+  watchlistFolders: WatchlistFolder[];
+  onImportData: (
+    importedCompanies: Company[],
+    importedEvaluations: Record<string, CompanyEvaluation>,
+    importedWatchlist?: Record<string, WatchlistEntry>,
+    importedFolders?: WatchlistFolder[]
+  ) => void;
   onResetEvaluations: () => void;
 }
 
@@ -16,6 +23,8 @@ export const DataManagementModal: React.FC<DataManagementModalProps> = ({
   onClose,
   companies,
   evaluations,
+  watchlist,
+  watchlistFolders,
   onImportData,
   onResetEvaluations,
 }) => {
@@ -24,12 +33,16 @@ export const DataManagementModal: React.FC<DataManagementModalProps> = ({
 
   if (!isOpen) return null;
 
+  const folderMap = new Map<string, string>(watchlistFolders.map((f) => [f.id, f.name]));
+
   // Export as JSON
   const handleExportJSON = () => {
     const dataToExport = {
       exportDate: new Date().toISOString(),
       customCompanies: companies.filter((c) => c.isCustom),
       evaluations,
+      watchlist,
+      watchlistFolders,
     };
     const jsonString = `data:text/json;charset=utf-8,${encodeURIComponent(
       JSON.stringify(dataToExport, null, 2)
@@ -44,15 +57,31 @@ export const DataManagementModal: React.FC<DataManagementModalProps> = ({
 
   // Export as CSV
   const handleExportCSV = () => {
-    const headers = ['종목코드', '기업명', '시장', '업종', '세부업종', '내평점', '메모', '평가일시'];
+    const headers = [
+      '종목코드',
+      '기업명',
+      '시장',
+      '업종',
+      '세부업종',
+      '관심기업(별표)',
+      '관심폴더',
+      '내평점',
+      '메모',
+      '평가일시',
+    ];
     const rows = companies.map((c) => {
       const ev = evaluations[c.code];
+      const watch = watchlist[c.code];
+      const folderName: string = watch ? folderMap.get(watch.folderId) || '기본 관심종목' : '';
+
       return [
         `="${c.code}"`, // quote for excel to keep 005930 leading zero
         `"${c.name.replace(/"/g, '""')}"`,
         c.market,
         `"${c.sector}"`,
         `"${c.subSector || ''}"`,
+        watch ? 'Y' : 'N',
+        `"${folderName.replace(/"/g, '""')}"`,
         ev?.grade || '',
         `"${(ev?.memo || '').replace(/"/g, '""')}"`,
         ev?.updatedAt || '',
@@ -79,17 +108,23 @@ export const DataManagementModal: React.FC<DataManagementModalProps> = ({
     reader.onload = (event) => {
       try {
         const parsed = JSON.parse(event.target?.result as string);
-        if (!parsed.evaluations) {
+        if (!parsed.evaluations && !parsed.watchlist) {
           throw new Error('올바른 백업 파일 형식이 아닙니다.');
         }
 
         const customComps: Company[] = Array.isArray(parsed.customCompanies) ? parsed.customCompanies : [];
         const evals: Record<string, CompanyEvaluation> = parsed.evaluations || {};
+        const watch: Record<string, WatchlistEntry> = parsed.watchlist || {};
+        const folders: WatchlistFolder[] | undefined = Array.isArray(parsed.watchlistFolders)
+          ? parsed.watchlistFolders
+          : undefined;
 
-        onImportData(customComps, evals);
+        onImportData(customComps, evals, watch, folders);
         setImportStatus({
           success: true,
-          message: `성공적으로 데이터를 복원했습니다! (평가 ${Object.keys(evals).length}개)`,
+          message: `성공적으로 데이터를 복원했습니다! (평가 ${Object.keys(evals).length}개, 관심기업 ${
+            Object.keys(watch).length
+          }개)`,
         });
       } catch (err: any) {
         setImportStatus({

@@ -1,9 +1,20 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Company, CompanyEvaluation, FilterState, RatingGrade, SortDirection, SortField } from './types';
+import {
+  Company,
+  CompanyEvaluation,
+  FilterState,
+  RatingGrade,
+  SortDirection,
+  SortField,
+  WatchlistEntry,
+  WatchlistFolder,
+  ViewTab,
+} from './types';
 import { INITIAL_KRX_COMPANIES } from './data/krxCompanies';
 import { StatsHeader } from './components/StatsHeader';
 import { FilterAndSortBar } from './components/FilterAndSortBar';
 import { CompanyTable } from './components/CompanyTable';
+import { WatchlistFolderBar } from './components/WatchlistFolderBar';
 import { AddCompanyModal } from './components/AddCompanyModal';
 import { DataManagementModal } from './components/DataManagementModal';
 import {
@@ -13,10 +24,20 @@ import {
   Info,
   ExternalLink,
   SlidersHorizontal,
+  Star,
+  Layers,
 } from 'lucide-react';
 
 const STORAGE_KEY_EVALUATIONS = 'krx_company_evaluations_v1';
 const STORAGE_KEY_CUSTOM_COMPANIES = 'krx_custom_companies_v1';
+const STORAGE_KEY_WATCHLIST = 'krx_company_watchlist_v1';
+const STORAGE_KEY_FOLDERS = 'krx_watchlist_folders_v1';
+
+const INITIAL_FOLDERS: WatchlistFolder[] = [
+  { id: 'default', name: '기본 관심종목', color: 'amber', createdAt: '2026-01-01' },
+  { id: 'tech', name: '반도체·AI 혁신주', color: 'blue', createdAt: '2026-01-01' },
+  { id: 'dividend', name: '고배당·가치주', color: 'emerald', createdAt: '2026-01-01' },
+];
 
 export default function App() {
   // Load custom companies from localStorage
@@ -44,6 +65,36 @@ export default function App() {
     }
   });
 
+  // Load watchlist folders from localStorage
+  const [folders, setFolders] = useState<WatchlistFolder[]>(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY_FOLDERS);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+      return INITIAL_FOLDERS;
+    } catch {
+      return INITIAL_FOLDERS;
+    }
+  });
+
+  // Load watchlist entries from localStorage
+  const [watchlist, setWatchlist] = useState<Record<string, WatchlistEntry>>(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY_WATCHLIST);
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
+
+  // View mode tab: ALL companies or WATCHLIST
+  const [activeViewTab, setActiveViewTab] = useState<ViewTab>('ALL');
+  const [selectedFolderId, setSelectedFolderId] = useState<string>('ALL');
+
   // Save evaluations to localStorage
   useEffect(() => {
     try {
@@ -61,6 +112,24 @@ export default function App() {
       console.error('Failed to save custom companies to localStorage', e);
     }
   }, [customCompanies]);
+
+  // Save folders to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY_FOLDERS, JSON.stringify(folders));
+    } catch (e) {
+      console.error('Failed to save folders to localStorage', e);
+    }
+  }, [folders]);
+
+  // Save watchlist to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY_WATCHLIST, JSON.stringify(watchlist));
+    } catch (e) {
+      console.error('Failed to save watchlist to localStorage', e);
+    }
+  }, [watchlist]);
 
   // Filtering & Sorting State
   const [filter, setFilter] = useState<FilterState>({
@@ -102,6 +171,17 @@ export default function App() {
 
     return { counts, unrated };
   }, [allCompanies, evaluations]);
+
+  // Watchlist calculations
+  const watchlistCount = Object.keys(watchlist).length;
+
+  const folderItemCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    (Object.values(watchlist) as WatchlistEntry[]).forEach((entry) => {
+      counts[entry.folderId] = (counts[entry.folderId] || 0) + 1;
+    });
+    return counts;
+  }, [watchlist]);
 
   // Handlers for rating
   const handleRate = (code: string, grade: RatingGrade | null) => {
@@ -146,18 +226,104 @@ export default function App() {
     });
   };
 
+  // Watchlist Star Toggle
+  const handleToggleStar = (companyCode: string, folderId?: string) => {
+    setWatchlist((prev) => {
+      const next = { ...prev };
+      if (next[companyCode]) {
+        delete next[companyCode];
+      } else {
+        const targetFolder =
+          folderId ||
+          (selectedFolderId !== 'ALL' && folders.some((f) => f.id === selectedFolderId)
+            ? selectedFolderId
+            : folders[0]?.id || 'default');
+
+        next[companyCode] = {
+          companyCode,
+          folderId: targetFolder,
+          addedAt: new Date().toISOString(),
+        };
+      }
+      return next;
+    });
+  };
+
+  // Change company's assigned folder
+  const handleChangeCompanyFolder = (companyCode: string, newFolderId: string) => {
+    setWatchlist((prev) => {
+      if (!prev[companyCode]) return prev;
+      return {
+        ...prev,
+        [companyCode]: {
+          ...prev[companyCode],
+          folderId: newFolderId,
+        },
+      };
+    });
+  };
+
+  // Create new folder
+  const handleCreateFolder = (name: string, color: string) => {
+    const newFolder: WatchlistFolder = {
+      id: `folder_${Date.now()}`,
+      name,
+      color,
+      createdAt: new Date().toISOString(),
+    };
+    setFolders((prev) => [...prev, newFolder]);
+    setSelectedFolderId(newFolder.id);
+  };
+
+  // Rename folder
+  const handleRenameFolder = (folderId: string, newName: string) => {
+    setFolders((prev) =>
+      prev.map((f) => (f.id === folderId ? { ...f, name: newName } : f))
+    );
+  };
+
+  // Delete folder
+  const handleDeleteFolder = (folderId: string) => {
+    const fallbackFolderId = folders.find((f) => f.id !== folderId)?.id || 'default';
+    setWatchlist((prev) => {
+      const next = { ...prev };
+      Object.keys(next).forEach((code) => {
+        if (next[code].folderId === folderId) {
+          next[code] = {
+            ...next[code],
+            folderId: fallbackFolderId,
+          };
+        }
+      });
+      return next;
+    });
+
+    setFolders((prev) => prev.filter((f) => f.id !== folderId));
+    if (selectedFolderId === folderId) {
+      setSelectedFolderId('ALL');
+    }
+  };
+
   const handleAddCompany = (newCompany: Company) => {
     setCustomCompanies((prev) => [newCompany, ...prev]);
   };
 
   const handleImportData = (
     importedCustoms: Company[],
-    importedEvals: Record<string, CompanyEvaluation>
+    importedEvals: Record<string, CompanyEvaluation>,
+    importedWatchlist?: Record<string, WatchlistEntry>,
+    importedFolders?: WatchlistFolder[]
   ) => {
     if (importedCustoms.length > 0) {
       setCustomCompanies(importedCustoms);
     }
     setEvaluations(importedEvals);
+    if (importedWatchlist) {
+      setWatchlist(importedWatchlist);
+    }
+    if (importedFolders && importedFolders.length > 0) {
+      setFolders(importedFolders);
+    }
   };
 
   const handleResetEvaluations = () => {
@@ -168,6 +334,15 @@ export default function App() {
   const filteredAndSortedCompanies = useMemo(() => {
     return allCompanies
       .filter((company) => {
+        // Watchlist Tab Filter
+        if (activeViewTab === 'WATCHLIST') {
+          const entry = watchlist[company.code];
+          if (!entry) return false;
+          if (selectedFolderId !== 'ALL' && entry.folderId !== selectedFolderId) {
+            return false;
+          }
+        }
+
         // Market filter
         if (filter.market !== 'ALL' && company.market !== filter.market) {
           return false;
@@ -215,7 +390,14 @@ export default function App() {
       .sort((a, b) => {
         let cmp = 0;
 
-        if (sortField === 'sector') {
+        if (sortField === 'watchlist') {
+          const starA = watchlist[a.code] ? 1 : 0;
+          const starB = watchlist[b.code] ? 1 : 0;
+          cmp = starB - starA; // Starred items first
+          if (cmp === 0) {
+            cmp = a.name.localeCompare(b.name, 'ko-KR');
+          }
+        } else if (sortField === 'sector') {
           cmp = a.sector.localeCompare(b.sector, 'ko-KR');
           if (cmp === 0) {
             cmp = a.name.localeCompare(b.name, 'ko-KR');
@@ -238,7 +420,16 @@ export default function App() {
 
         return sortDirection === 'asc' ? cmp : -cmp;
       });
-  }, [allCompanies, evaluations, filter, sortField, sortDirection]);
+  }, [
+    allCompanies,
+    evaluations,
+    watchlist,
+    activeViewTab,
+    selectedFolderId,
+    filter,
+    sortField,
+    sortDirection,
+  ]);
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pb-16">
@@ -259,7 +450,7 @@ export default function App() {
                 </span>
               </div>
               <p className="text-[11px] text-slate-500 hidden sm:block">
-                한국거래소 2,800여개 전체 상장사 · 네이버 금융 종목분석 연동 · S/A/B/F 투자 등급 관리
+                한국거래소 2,800여개 전체 상장사 · 네이버 금융 종목분석 연동 · 관심기업 폴더 · S/A/B/F 투자 등급
               </p>
             </div>
           </div>
@@ -301,11 +492,12 @@ export default function App() {
             <span className="font-semibold text-emerald-800 bg-white px-1.5 py-0.5 rounded border border-emerald-300 inline-flex items-center gap-0.5 shadow-2xs">
               네이버 금융 <ExternalLink className="w-2.5 h-2.5 text-emerald-600" />
             </span>{' '}
-            버튼을 클릭하면 네이버 금융 종목분석 페이지(예: 고려신용정보 `049720`)가 새 창으로 열립니다.{' '}
-            우측의 <span className="font-bold text-purple-700">S</span> /{' '}
-            <span className="font-bold text-emerald-700">A</span> /{' '}
-            <span className="font-bold text-blue-700">B</span> /{' '}
-            <span className="font-bold text-rose-700">F</span> 버튼으로 직접 기업 투자 등급을 매길 수 있으며 모든 데이터는 브라우저에 안전하게 보관됩니다.
+            버튼을 누르면 해당 기업의 네이버 금융 종목분석 페이지(예: 고려신용정보 `049720`)가 새 창으로 열립니다.{' '}
+            종목 좌측의{' '}
+            <span className="inline-flex items-center font-bold text-amber-600 bg-amber-50 px-1 py-0.5 rounded border border-amber-200">
+              <Star className="w-3 h-3 fill-amber-400 text-amber-500 mr-0.5" /> 별표
+            </span>
+            를 누르면 관심기업 폴더에 즉시 등록되며, 상단의 <span className="font-bold text-slate-900">내 관심기업 폴더</span> 탭에서 폴더별로 나누어 모아볼 수 있습니다.
           </div>
         </div>
 
@@ -317,6 +509,84 @@ export default function App() {
           activeRatingFilter={filter.rating}
           onSelectRatingFilter={(newRating) => setFilter((prev) => ({ ...prev, rating: newRating }))}
         />
+
+        {/* Main View Mode Selector Tabs (전체 상장사 vs 내 관심기업) */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 border-b border-slate-200 pb-2">
+          <div className="inline-flex p-1 bg-slate-200/80 rounded-xl border border-slate-300/70 shadow-2xs">
+            <button
+              type="button"
+              id="tab-all-companies"
+              onClick={() => setActiveViewTab('ALL')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                activeViewTab === 'ALL'
+                  ? 'bg-white text-slate-900 shadow-sm border border-slate-200/80'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <Layers className="w-4 h-4 text-blue-600" />
+              <span>전체 상장사</span>
+              <span
+                className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${
+                  activeViewTab === 'ALL'
+                    ? 'bg-blue-50 text-blue-700'
+                    : 'bg-slate-300/70 text-slate-700'
+                }`}
+              >
+                {allCompanies.length.toLocaleString()}
+              </span>
+            </button>
+
+            <button
+              type="button"
+              id="tab-watchlist"
+              onClick={() => setActiveViewTab('WATCHLIST')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                activeViewTab === 'WATCHLIST'
+                  ? 'bg-white text-slate-900 shadow-sm border border-amber-300/80'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <Star
+                className={`w-4 h-4 ${
+                  activeViewTab === 'WATCHLIST'
+                    ? 'text-amber-500 fill-amber-400'
+                    : 'text-amber-500'
+                }`}
+              />
+              <span>내 관심기업 폴더</span>
+              <span
+                className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${
+                  watchlistCount > 0
+                    ? 'bg-amber-100 text-amber-800 border border-amber-300/80'
+                    : 'bg-slate-300/70 text-slate-600'
+                }`}
+              >
+                {watchlistCount}
+              </span>
+            </button>
+          </div>
+
+          {activeViewTab === 'WATCHLIST' && (
+            <div className="text-xs text-slate-500 flex items-center gap-1.5">
+              <span className="inline-block w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+              <span>원하는 관심 폴더를 자유롭게 추가하고 종목 좌측 별표(⭐)를 눌러 분류하세요.</span>
+            </div>
+          )}
+        </div>
+
+        {/* Watchlist Folder Bar (Shown when in WATCHLIST tab) */}
+        {activeViewTab === 'WATCHLIST' && (
+          <WatchlistFolderBar
+            folders={folders}
+            selectedFolderId={selectedFolderId}
+            onSelectFolder={setSelectedFolderId}
+            onCreateFolder={handleCreateFolder}
+            onRenameFolder={handleRenameFolder}
+            onDeleteFolder={handleDeleteFolder}
+            itemCounts={folderItemCounts}
+            totalCount={watchlistCount}
+          />
+        )}
 
         {/* Filter & Sort Controls */}
         <FilterAndSortBar
@@ -349,14 +619,21 @@ export default function App() {
           <div className="flex items-center gap-1.5">
             <SlidersHorizontal className="w-3.5 h-3.5 text-slate-400" />
             <span>
-              총 <span className="font-bold text-slate-900">{filteredAndSortedCompanies.length}</span>개 종목 표시 중
-              {filteredAndSortedCompanies.length !== allCompanies.length && (
-                <span className="text-slate-400"> (전체 {allCompanies.length}개)</span>
+              {activeViewTab === 'WATCHLIST' ? '관심기업 목록' : '상장사 목록'}: 총{' '}
+              <span className="font-bold text-slate-900">{filteredAndSortedCompanies.length}</span>개 종목 표시 중
+              {activeViewTab === 'WATCHLIST' ? (
+                <span className="text-amber-700 font-semibold ml-1">
+                  (전체 관심기업 {watchlistCount}개)
+                </span>
+              ) : (
+                filteredAndSortedCompanies.length !== allCompanies.length && (
+                  <span className="text-slate-400"> (전체 {allCompanies.length}개)</span>
+                )
               )}
             </span>
           </div>
           <span className="text-[11px] text-slate-400 hidden sm:inline">
-            정렬: {sortField === 'sector' ? '업종별' : sortField === 'name' ? '종목명순' : sortField === 'code' ? '종목코드순' : sortField === 'rating' ? '내 평점순' : '시장구분순'} ({sortDirection === 'asc' ? '오름차순' : '내림차순'})
+            정렬: {sortField === 'watchlist' ? '관심순' : sortField === 'sector' ? '업종별' : sortField === 'name' ? '종목명순' : sortField === 'code' ? '종목코드순' : sortField === 'rating' ? '내 평점순' : '시장구분순'} ({sortDirection === 'asc' ? '오름차순' : '내림차순'})
           </span>
         </div>
 
@@ -376,6 +653,12 @@ export default function App() {
               setSortDirection('asc');
             }
           }}
+          watchlist={watchlist}
+          folders={folders}
+          onToggleStar={handleToggleStar}
+          onChangeCompanyFolder={handleChangeCompanyFolder}
+          activeViewTab={activeViewTab}
+          onSwitchToAllTab={() => setActiveViewTab('ALL')}
         />
       </main>
 
@@ -393,6 +676,8 @@ export default function App() {
         onClose={() => setIsDataModalOpen(false)}
         companies={allCompanies}
         evaluations={evaluations}
+        watchlist={watchlist}
+        watchlistFolders={folders}
         onImportData={handleImportData}
         onResetEvaluations={handleResetEvaluations}
       />

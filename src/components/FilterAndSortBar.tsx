@@ -116,6 +116,19 @@ export const FilterAndSortBar: React.FC<FilterAndSortBarProps> = ({
             >
               내 평점순
             </button>
+
+            <button
+              id="sort-btn-watchlist"
+              type="button"
+              onClick={() => onSortChange('watchlist')}
+              className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-all flex items-center gap-1 ${
+                sortField === 'watchlist'
+                  ? 'bg-amber-500 text-white shadow-xs font-bold'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <span>⭐ 관심순</span>
+            </button>
           </div>
 
           {/* Direction toggle button */}
