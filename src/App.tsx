@@ -3,6 +3,7 @@ import {
   Company,
   CompanyEvaluation,
   FilterState,
+  MarketCapSyncStatus,
   RatingGrade,
   SortDirection,
   SortField,
@@ -15,6 +16,7 @@ import { StatsHeader } from './components/StatsHeader';
 import { FilterAndSortBar } from './components/FilterAndSortBar';
 import { CompanyTable } from './components/CompanyTable';
 import { WatchlistFolderBar } from './components/WatchlistFolderBar';
+import { MarketCapSyncBar } from './components/MarketCapSyncBar';
 import { AddCompanyModal } from './components/AddCompanyModal';
 import { DataManagementModal } from './components/DataManagementModal';
 import {
@@ -50,10 +52,123 @@ export default function App() {
     }
   });
 
-  // Combine initial and custom companies
+  // Live market cap and daily fluctuation state
+  const [liveMarketCaps, setLiveMarketCaps] = useState<
+    Record<
+      string,
+      {
+        marketCap: number;
+        marketCapText: string;
+        price?: string;
+        changeRate?: number;
+        changePrice?: string;
+        updatedAt?: string;
+      }
+    >
+  >({});
+
+  const [syncStatus, setSyncStatus] = useState<MarketCapSyncStatus>({
+    isSyncing: false,
+    progress: 0,
+    lastSyncedAt: null,
+  });
+
+  // Fetch initial market caps and status on mount
+  useEffect(() => {
+    let isMounted = true;
+    const fetchLatestMarketCaps = async () => {
+      try {
+        const res = await fetch('/api/market-cap/latest');
+        if (res.ok) {
+          const json = await res.json();
+          if (json.data && isMounted) {
+            setLiveMarketCaps(json.data);
+            setSyncStatus((prev) => ({
+              ...prev,
+              lastSyncedAt: json.lastSyncedAt || new Date().toISOString(),
+            }));
+          }
+        }
+      } catch (err) {
+        console.warn('Initial market cap fetch failed:', err);
+      }
+    };
+
+    fetchLatestMarketCaps();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // Trigger market cap sync on demand
+  const handleSyncMarketCap = async () => {
+    if (syncStatus.isSyncing) return;
+    setSyncStatus((prev) => ({ ...prev, isSyncing: true, progress: 10 }));
+
+    try {
+      const syncRes = await fetch('/api/market-cap/sync');
+      if (syncRes.ok) {
+        const json = await syncRes.json();
+        if (json.data) {
+          setLiveMarketCaps(json.data);
+        }
+        setSyncStatus({
+          isSyncing: false,
+          progress: 100,
+          lastSyncedAt: json.lastSyncedAt || new Date().toISOString(),
+          totalUpdated: json.updatedCount,
+        });
+        return;
+      }
+    } catch (err) {
+      console.warn('Sync call returned, polling status...', err);
+    }
+
+    // Polling fallback
+    const pollInterval = setInterval(async () => {
+      try {
+        const statusRes = await fetch('/api/market-cap/status');
+        if (statusRes.ok) {
+          const statusJson = await statusRes.json();
+          setSyncStatus((prev) => ({
+            ...prev,
+            isSyncing: statusJson.isSyncing,
+            progress: statusJson.syncProgress || 100,
+            lastSyncedAt: statusJson.lastSyncedAt,
+          }));
+          if (!statusJson.isSyncing) {
+            clearInterval(pollInterval);
+            const latestRes = await fetch('/api/market-cap/latest');
+            if (latestRes.ok) {
+              const latestJson = await latestRes.json();
+              if (latestJson.data) setLiveMarketCaps(latestJson.data);
+            }
+          }
+        }
+      } catch {
+        clearInterval(pollInterval);
+        setSyncStatus((prev) => ({ ...prev, isSyncing: false }));
+      }
+    }, 800);
+  };
+
+  // Combine initial, custom companies, and live market cap fluctuations
   const allCompanies = useMemo(() => {
-    return [...INITIAL_KRX_COMPANIES, ...customCompanies];
-  }, [customCompanies]);
+    const base = [...INITIAL_KRX_COMPANIES, ...customCompanies];
+    if (Object.keys(liveMarketCaps).length === 0) return base;
+    return base.map((c) => {
+      const live = liveMarketCaps[c.code];
+      if (!live) return c;
+      return {
+        ...c,
+        marketCap: live.marketCap ?? c.marketCap,
+        marketCapText: live.marketCapText ?? c.marketCapText,
+        price: live.price ?? c.price,
+        changeRate: live.changeRate ?? c.changeRate,
+        changePrice: live.changePrice ?? c.changePrice,
+      };
+    });
+  }, [customCompanies, liveMarketCaps]);
 
   // Load evaluations from localStorage
   const [evaluations, setEvaluations] = useState<Record<string, CompanyEvaluation>>(() => {
@@ -419,10 +534,13 @@ export default function App() {
         } else if (sortField === 'marketCap') {
           const capA = a.marketCap || 0;
           const capB = b.marketCap || 0;
-          cmp = capA - capB;
+          if (capA === 0 && capB > 0) return 1;
+          if (capB === 0 && capA > 0) return -1;
+          cmp = sortDirection === 'asc' ? capA - capB : capB - capA;
           if (cmp === 0) {
             cmp = a.name.localeCompare(b.name, 'ko-KR');
           }
+          return cmp;
         }
 
         return sortDirection === 'asc' ? cmp : -cmp;
@@ -437,6 +555,18 @@ export default function App() {
     sortField,
     sortDirection,
   ]);
+
+  const handleSortChange = (field: SortField, direction?: SortDirection) => {
+    if (direction) {
+      setSortField(field);
+      setSortDirection(direction);
+    } else if (sortField === field) {
+      setSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'));
+    } else {
+      setSortField(field);
+      setSortDirection(field === 'marketCap' ? 'desc' : 'asc');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pb-16">
@@ -595,6 +725,13 @@ export default function App() {
           />
         )}
 
+        {/* Live Market Cap & Fluctuation Sync Bar */}
+        <MarketCapSyncBar
+          status={syncStatus}
+          totalCompanies={allCompanies.length}
+          onSync={handleSyncMarketCap}
+        />
+
         {/* Filter & Sort Controls */}
         <FilterAndSortBar
           filter={filter}
@@ -609,14 +746,7 @@ export default function App() {
           }
           sortField={sortField}
           sortDirection={sortDirection}
-          onSortChange={(field) => {
-            if (sortField === field) {
-              setSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'));
-            } else {
-              setSortField(field);
-              setSortDirection('asc');
-            }
-          }}
+          onSortChange={handleSortChange}
           onSortDirectionToggle={() => setSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'))}
           sectorCounts={sectorCounts}
         />
@@ -640,7 +770,23 @@ export default function App() {
             </span>
           </div>
           <span className="text-[11px] text-slate-400 hidden sm:inline">
-            정렬: {sortField === 'watchlist' ? '관심순' : sortField === 'sector' ? '업종별' : sortField === 'name' ? '종목명순' : sortField === 'code' ? '종목코드순' : sortField === 'rating' ? '내 평점순' : sortField === 'marketCap' ? '시가총액순' : '시장구분순'} ({sortDirection === 'asc' ? '오름차순' : '내림차순'})
+            정렬:{' '}
+            {sortField === 'watchlist'
+              ? '관심순'
+              : sortField === 'sector'
+              ? '업종별'
+              : sortField === 'name'
+              ? '종목명순'
+              : sortField === 'code'
+              ? '종목코드순'
+              : sortField === 'rating'
+              ? '내 평점순'
+              : sortField === 'marketCap'
+              ? sortDirection === 'desc'
+                ? '시가총액 높은순(내림차순)'
+                : '시가총액 낮은순(오름차순)'
+              : '시장구분순'}{' '}
+            ({sortDirection === 'asc' ? '오름차순' : '내림차순'})
           </span>
         </div>
 
@@ -652,14 +798,7 @@ export default function App() {
           onUpdateMemo={handleUpdateMemo}
           sortField={sortField}
           sortDirection={sortDirection}
-          onSortChange={(field) => {
-            if (sortField === field) {
-              setSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'));
-            } else {
-              setSortField(field);
-              setSortDirection(field === 'marketCap' ? 'desc' : 'asc');
-            }
-          }}
+          onSortChange={handleSortChange}
           watchlist={watchlist}
           folders={folders}
           onToggleStar={handleToggleStar}

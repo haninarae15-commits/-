@@ -14,15 +14,51 @@ interface MarketCapItem {
   marketCapText: string;
   price?: string;
   changeRate?: number;
+  changePrice?: string;
   updatedAt?: string;
 }
 
+const CACHE_FILE_PATH = path.join(process.cwd(), 'src', 'data', 'marketCapCache.json');
 const marketCapCache: Record<string, MarketCapItem> = {};
 let lastSyncedAt: string | null = null;
 let isSyncing = false;
 let syncProgress = 0;
 
-// Load codes from krxCompanies.json
+// Load persisted cache if available
+function loadPersistedCache() {
+  try {
+    if (fs.existsSync(CACHE_FILE_PATH)) {
+      const content = fs.readFileSync(CACHE_FILE_PATH, 'utf-8');
+      const parsed = JSON.parse(content);
+      if (parsed && typeof parsed === 'object') {
+        Object.assign(marketCapCache, parsed.data || parsed);
+        lastSyncedAt = parsed.lastSyncedAt || new Date().toISOString();
+        console.log(`Loaded persisted market cap cache: ${Object.keys(marketCapCache).length} items`);
+      }
+    }
+  } catch (err) {
+    console.warn('Failed to load persisted market cap cache:', err);
+  }
+}
+
+// Save cache to disk
+function saveCacheToDisk() {
+  try {
+    const dir = path.dirname(CACHE_FILE_PATH);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    fs.writeFileSync(
+      CACHE_FILE_PATH,
+      JSON.stringify({ lastSyncedAt, data: marketCapCache }, null, 2),
+      'utf-8'
+    );
+  } catch (err) {
+    console.warn('Failed to save market cap cache to disk:', err);
+  }
+}
+
+// Load initial codes from krxCompanies.json
 function getStockCodes(): string[] {
   try {
     const jsonPath = path.join(process.cwd(), 'src', 'data', 'krxCompanies.json');
@@ -47,6 +83,7 @@ function getStockCodes(): string[] {
   return [];
 }
 
+loadPersistedCache();
 const allStockCodes = getStockCodes();
 console.log(`Loaded ${allStockCodes.length} KRX stock codes for market cap sync.`);
 
@@ -82,6 +119,9 @@ async function fetchNaverBatch(chunk: string[]): Promise<Record<string, MarketCa
       const changeRate = item.fluctuationsRatio !== undefined && item.fluctuationsRatio !== null
         ? Number(item.fluctuationsRatio)
         : undefined;
+      const changePrice = item.compareToPreviousClosePrice !== undefined && item.compareToPreviousClosePrice !== null
+        ? String(item.compareToPreviousClosePrice)
+        : undefined;
 
       if (capInEok > 0) {
         result[code] = {
@@ -89,6 +129,7 @@ async function fetchNaverBatch(chunk: string[]): Promise<Record<string, MarketCa
           marketCapText: `${capInEok.toLocaleString()}억`,
           price,
           changeRate,
+          changePrice,
           updatedAt: new Date().toISOString(),
         };
       }
@@ -130,6 +171,7 @@ async function performMarketCapSync(): Promise<number> {
     }
 
     lastSyncedAt = new Date().toISOString();
+    saveCacheToDisk();
     console.log(`Successfully synced market caps for ${updatedCount} KRX stocks at ${lastSyncedAt}`);
   } catch (err) {
     console.error('Sync failed:', err);
@@ -140,6 +182,11 @@ async function performMarketCapSync(): Promise<number> {
 
   return updatedCount;
 }
+
+// Auto-sync interval: every 10 minutes, keep market cap fluctuations updated
+setInterval(() => {
+  performMarketCapSync().catch((err) => console.error('Periodic market cap sync failed:', err));
+}, 10 * 60 * 1000);
 
 // API Routes
 app.get('/api/health', (req, res) => {
@@ -163,6 +210,29 @@ app.get('/api/market-cap/latest', (req, res) => {
     count: Object.keys(marketCapCache).length,
     data: marketCapCache,
   });
+});
+
+// Fetch on-demand quotes for a specific batch of codes
+app.post('/api/market-cap/batch', async (req, res) => {
+  const codes: string[] = req.body?.codes || [];
+  if (!Array.isArray(codes) || codes.length === 0) {
+    return res.json({ success: true, data: {} });
+  }
+
+  const cleanCodes = codes.map((c) => String(c).trim()).filter(Boolean).slice(0, 100);
+  try {
+    const liveBatch = await fetchNaverBatch(cleanCodes);
+    // Update cache with these live items
+    for (const [c, info] of Object.entries(liveBatch)) {
+      marketCapCache[c] = info;
+    }
+    return res.json({
+      success: true,
+      data: liveBatch,
+    });
+  } catch (err) {
+    return res.status(500).json({ success: false, error: 'Batch fetch failed' });
+  }
 });
 
 // Trigger sync on demand

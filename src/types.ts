@@ -14,6 +14,7 @@ export interface Company {
   marketCapText?: string; // Formatted with 억 (e.g. '14,615,697억')
   price?: string; // Current price (e.g. '250,000')
   changeRate?: number; // Today's fluctuation rate in % (e.g. -0.2, +1.5)
+  changePrice?: string; // Today's fluctuation price in KRW (e.g. '+5,000', '-500')
 }
 
 export interface MarketCapSyncStatus {

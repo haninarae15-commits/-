@@ -37,13 +37,27 @@ interface CompanyTableProps {
   onUpdateMemo: (code: string, memo: string) => void;
   sortField: SortField;
   sortDirection: SortDirection;
-  onSortChange: (field: SortField) => void;
+  onSortChange: (field: SortField, direction?: SortDirection) => void;
   watchlist: Record<string, WatchlistEntry>;
   folders: WatchlistFolder[];
   onToggleStar: (companyCode: string, folderId?: string) => void;
   onChangeCompanyFolder: (companyCode: string, newFolderId: string) => void;
   activeViewTab?: ViewTab;
   onSwitchToAllTab?: () => void;
+}
+
+// Helper function to format market cap into easy Korean units (조, 억)
+export function formatKoreanMarketCap(capInEok?: number): string {
+  if (!capInEok || capInEok <= 0) return '-';
+  if (capInEok >= 10000) {
+    const jo = Math.floor(capInEok / 10000);
+    const remainder = capInEok % 10000;
+    if (remainder === 0) {
+      return `${jo.toLocaleString()}조원`;
+    }
+    return `${jo.toLocaleString()}조 ${remainder.toLocaleString()}억`;
+  }
+  return `${capInEok.toLocaleString()}억원`;
 }
 
 export const CompanyTable: React.FC<CompanyTableProps> = ({
@@ -286,11 +300,19 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
               {/* 6. 시가총액 */}
               <th
                 id="th-company-marketcap"
-                className="py-3 px-4 w-[145px] text-right cursor-pointer hover:bg-slate-100 transition-colors group"
-                onClick={() => onSortChange('marketCap')}
-                title="시가총액 정렬 (단위: 억원)"
+                className={`py-3 px-4 w-[165px] text-right cursor-pointer transition-colors group select-none ${
+                  sortField === 'marketCap' ? 'bg-blue-50 text-blue-900' : 'hover:bg-slate-100 text-slate-800'
+                }`}
+                onClick={() => {
+                  if (sortField === 'marketCap') {
+                    onSortChange('marketCap', sortDirection === 'desc' ? 'asc' : 'desc');
+                  } else {
+                    onSortChange('marketCap', 'desc');
+                  }
+                }}
+                title="시가총액 정렬: 클릭 시 높은순(내림차순) ↔ 낮은순(오름차순) 전환"
               >
-                <div className="flex items-center justify-end gap-1.5 font-bold text-slate-800">
+                <div className="flex items-center justify-end gap-1.5 font-bold">
                   <span>시가총액</span>
                   {renderSortIndicator('marketCap')}
                 </div>
@@ -454,17 +476,20 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
                   {/* 6. 시가총액 (단위: 억) & 당일 변동 */}
                   <td className="py-3.5 px-4 text-right whitespace-nowrap">
                     <div className="flex flex-col items-end">
-                      <span className="font-bold text-slate-900 tabular-nums text-xs sm:text-[13px]">
-                        {company.marketCapText || (company.marketCap ? `${company.marketCap.toLocaleString()}억` : '-')}
+                      <span
+                        className="font-bold text-slate-900 tabular-nums text-xs sm:text-[13px]"
+                        title={company.marketCap ? `정확한 시가총액: ${company.marketCap.toLocaleString()}억원` : undefined}
+                      >
+                        {formatKoreanMarketCap(company.marketCap) || company.marketCapText || '-'}
                       </span>
                       {company.changeRate !== undefined && (
                         <div className="flex items-center gap-1 mt-0.5 text-[11px] tabular-nums font-semibold">
                           {company.changeRate > 0 ? (
-                            <span className="text-rose-600 inline-flex items-center">
+                            <span className="text-rose-600 inline-flex items-center font-bold">
                               ▲ +{company.changeRate}%
                             </span>
                           ) : company.changeRate < 0 ? (
-                            <span className="text-blue-600 inline-flex items-center">
+                            <span className="text-blue-600 inline-flex items-center font-bold">
                               ▼ {company.changeRate}%
                             </span>
                           ) : (
@@ -473,11 +498,16 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
                             </span>
                           )}
                           {company.price && (
-                            <span className="text-slate-400 font-normal text-[10px]">
-                              ({company.price}원)
+                            <span className="text-slate-500 font-medium text-[11px]">
+                              {company.price}원
                             </span>
                           )}
                         </div>
+                      )}
+                      {!company.changeRate && company.price && (
+                        <span className="text-slate-500 font-medium text-[11px] mt-0.5">
+                          {company.price}원
+                        </span>
                       )}
                     </div>
                   </td>
