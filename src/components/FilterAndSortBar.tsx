@@ -9,7 +9,7 @@ interface FilterAndSortBarProps {
   onResetFilters: () => void;
   sortField: SortField;
   sortDirection: SortDirection;
-  onSortChange: (field: SortField) => void;
+  onSortChange: (field: SortField, direction?: SortDirection) => void;
   onSortDirectionToggle: () => void;
   sectorCounts: Record<string, number>;
 }
@@ -117,6 +117,39 @@ export const FilterAndSortBar: React.FC<FilterAndSortBarProps> = ({
               내 평점순
             </button>
 
+            {/* 시가총액 높은순 (내림차순) / 낮은순 (오름차순) */}
+            <div className="inline-flex rounded-md bg-slate-200/60 p-0.5 border border-slate-200/80">
+              <button
+                id="sort-btn-marketcap-desc"
+                type="button"
+                onClick={() => onSortChange('marketCap', 'desc')}
+                className={`px-2 py-1 text-xs font-semibold rounded transition-all flex items-center gap-1 ${
+                  sortField === 'marketCap' && sortDirection === 'desc'
+                    ? 'bg-blue-600 text-white shadow-xs font-bold'
+                    : 'text-slate-700 hover:text-slate-900'
+                }`}
+                title="시가총액 높은순 (내림차순) 정렬"
+              >
+                <span>시총 높은순</span>
+                <ArrowDown className="w-3 h-3" />
+              </button>
+
+              <button
+                id="sort-btn-marketcap-asc"
+                type="button"
+                onClick={() => onSortChange('marketCap', 'asc')}
+                className={`px-2 py-1 text-xs font-semibold rounded transition-all flex items-center gap-1 ${
+                  sortField === 'marketCap' && sortDirection === 'asc'
+                    ? 'bg-blue-600 text-white shadow-xs font-bold'
+                    : 'text-slate-700 hover:text-slate-900'
+                }`}
+                title="시가총액 낮은순 (오름차순) 정렬"
+              >
+                <span>시총 낮은순</span>
+                <ArrowUp className="w-3 h-3" />
+              </button>
+            </div>
+
             <button
               id="sort-btn-watchlist"
               type="button"
@@ -131,18 +164,24 @@ export const FilterAndSortBar: React.FC<FilterAndSortBarProps> = ({
             </button>
           </div>
 
-          {/* Direction toggle button */}
+          {/* Direction toggle button with clear label */}
           <button
             id="sort-direction-toggle"
             type="button"
             onClick={onSortDirectionToggle}
-            className="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg border border-slate-200 transition-colors"
-            title={sortDirection === 'asc' ? '오름차순 (클릭시 내림차순 전환)' : '내림차순 (클릭시 오름차순 전환)'}
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg border border-slate-200 text-xs font-semibold transition-colors cursor-pointer"
+            title={sortDirection === 'asc' ? '현재 오름차순 (클릭시 내림차순으로 전환)' : '현재 내림차순 (클릭시 오름차순으로 전환)'}
           >
             {sortDirection === 'asc' ? (
-              <ArrowUp className="w-4 h-4 text-slate-800" />
+              <>
+                <ArrowUp className="w-3.5 h-3.5 text-blue-600" />
+                <span>오름차순 (낮은순)</span>
+              </>
             ) : (
-              <ArrowDown className="w-4 h-4 text-slate-800" />
+              <>
+                <ArrowDown className="w-3.5 h-3.5 text-rose-600" />
+                <span>내림차순 (높은순)</span>
+              </>
             )}
           </button>
         </div>

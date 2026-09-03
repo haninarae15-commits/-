@@ -20,6 +20,7 @@ export const AddCompanyModal: React.FC<AddCompanyModalProps> = ({
   const [name, setName] = useState('');
   const [market, setMarket] = useState<MarketType>('KOSPI');
   const [sector, setSector] = useState(AVAILABLE_SECTORS[0]);
+  const [marketCapInput, setMarketCapInput] = useState('');
   const [description, setDescription] = useState('');
   const [error, setError] = useState<string | null>(null);
 
@@ -45,11 +46,15 @@ export const AddCompanyModal: React.FC<AddCompanyModalProps> = ({
       return;
     }
 
+    const parsedCap = marketCapInput.trim() ? parseInt(marketCapInput.replace(/,/g, ''), 10) : undefined;
+
     onAdd({
       code: cleanCode,
       name: cleanName,
       market,
       sector,
+      marketCap: parsedCap && !isNaN(parsedCap) ? parsedCap : undefined,
+      marketCapText: parsedCap && !isNaN(parsedCap) ? `${parsedCap.toLocaleString()}억` : undefined,
       description: description.trim() || undefined,
       isCustom: true,
     });
@@ -57,6 +62,7 @@ export const AddCompanyModal: React.FC<AddCompanyModalProps> = ({
     // Reset and close
     setCode('');
     setName('');
+    setMarketCapInput('');
     setDescription('');
     setError(null);
     onClose();
@@ -169,6 +175,20 @@ export const AddCompanyModal: React.FC<AddCompanyModalProps> = ({
                 ))}
               </select>
             </div>
+          </div>
+
+          <div>
+            <label htmlFor="input-new-marketcap" className="block text-xs font-bold text-slate-700 mb-1">
+              시가총액 (단위: 억원, 선택)
+            </label>
+            <input
+              id="input-new-marketcap"
+              type="text"
+              value={marketCapInput}
+              onChange={(e) => setMarketCapInput(e.target.value)}
+              placeholder="예: 5000 또는 1,200"
+              className="w-full text-sm px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
           </div>
 
           <div>

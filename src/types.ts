@@ -10,6 +10,18 @@ export interface Company {
   subSector?: string;
   description?: string;
   isCustom?: boolean;
+  marketCap?: number; // Market cap in 억원 (e.g. 14615697)
+  marketCapText?: string; // Formatted with 억 (e.g. '14,615,697억')
+  price?: string; // Current price (e.g. '250,000')
+  changeRate?: number; // Today's fluctuation rate in % (e.g. -0.2, +1.5)
+}
+
+export interface MarketCapSyncStatus {
+  isSyncing: boolean;
+  progress: number;
+  lastSyncedAt: string | null;
+  totalUpdated?: number;
+  error?: string | null;
 }
 
 export interface CompanyEvaluation {
@@ -34,7 +46,7 @@ export interface WatchlistEntry {
 
 export type ViewTab = 'ALL' | 'WATCHLIST';
 
-export type SortField = 'sector' | 'name' | 'code' | 'rating' | 'market' | 'watchlist';
+export type SortField = 'sector' | 'name' | 'code' | 'rating' | 'market' | 'watchlist' | 'marketCap';
 export type SortDirection = 'asc' | 'desc';
 
 export interface FilterState {

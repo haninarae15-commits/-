@@ -134,6 +134,19 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
     if (sortField !== field) {
       return <ArrowUpDown className="w-3.5 h-3.5 text-slate-300 opacity-60 group-hover:opacity-100" />;
     }
+    if (field === 'marketCap') {
+      return sortDirection === 'desc' ? (
+        <span className="inline-flex items-center gap-0.5 text-[10px] font-bold text-blue-700 bg-blue-100/80 px-1.5 py-0.5 rounded border border-blue-200">
+          <span>높은순</span>
+          <ArrowDown className="w-3 h-3 text-blue-700" />
+        </span>
+      ) : (
+        <span className="inline-flex items-center gap-0.5 text-[10px] font-bold text-blue-700 bg-blue-100/80 px-1.5 py-0.5 rounded border border-blue-200">
+          <span>낮은순</span>
+          <ArrowUp className="w-3 h-3 text-blue-700" />
+        </span>
+      );
+    }
     return sortDirection === 'asc' ? (
       <ArrowUp className="w-3.5 h-3.5 text-slate-900 font-bold" />
     ) : (
@@ -210,7 +223,7 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
         <table className="w-full text-left border-collapse min-w-[760px]">
           <thead>
             <tr className="border-b border-slate-200/80 bg-slate-50/80 text-xs font-semibold text-slate-500 tracking-wider">
-              {/* Star Watchlist Header */}
+              {/* 1. 별표 (Star) */}
               <th
                 id="th-company-star"
                 className="py-3 px-2 w-[46px] text-center cursor-pointer hover:bg-slate-100 transition-colors group"
@@ -222,6 +235,7 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
                 </div>
               </th>
 
+              {/* 2. 종목코드 */}
               <th
                 id="th-company-code"
                 className="py-3 px-3 w-[105px] cursor-pointer hover:bg-slate-100 transition-colors group"
@@ -233,9 +247,10 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
                 </div>
               </th>
 
+              {/* 3. 기업명 */}
               <th
                 id="th-company-name"
-                className="py-3 px-4 cursor-pointer hover:bg-slate-100 transition-colors group"
+                className="py-3 px-4 min-w-[180px] cursor-pointer hover:bg-slate-100 transition-colors group"
                 onClick={() => onSortChange('name')}
               >
                 <div className="flex items-center gap-1.5">
@@ -244,6 +259,7 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
                 </div>
               </th>
 
+              {/* 4. 시장 */}
               <th
                 id="th-company-market"
                 className="py-3 px-3 w-[85px] cursor-pointer hover:bg-slate-100 transition-colors group"
@@ -255,33 +271,33 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
                 </div>
               </th>
 
+              {/* 5. 업종 */}
               <th
                 id="th-company-sector"
-                className="py-3 px-4 w-[150px] cursor-pointer hover:bg-slate-100 transition-colors group"
+                className="py-3 px-4 w-[160px] cursor-pointer hover:bg-slate-100 transition-colors group"
                 onClick={() => onSortChange('sector')}
               >
                 <div className="flex items-center gap-1.5 text-slate-800 font-bold">
-                  <span>업종 (소팅)</span>
+                  <span>업종</span>
                   {renderSortIndicator('sector')}
                 </div>
               </th>
 
-              <th id="th-company-guide" className="py-3 px-4 w-[160px] text-center">
-                종목 분석 (네이버)
-              </th>
-
+              {/* 6. 시가총액 */}
               <th
-                id="th-company-rating"
-                className="py-3 px-4 w-[210px] cursor-pointer hover:bg-slate-100 transition-colors group"
-                onClick={() => onSortChange('rating')}
+                id="th-company-marketcap"
+                className="py-3 px-4 w-[145px] text-right cursor-pointer hover:bg-slate-100 transition-colors group"
+                onClick={() => onSortChange('marketCap')}
+                title="시가총액 정렬 (단위: 억원)"
               >
-                <div className="flex items-center justify-center gap-1.5">
-                  <span>내 평가 (S/A/B/F)</span>
-                  {renderSortIndicator('rating')}
+                <div className="flex items-center justify-end gap-1.5 font-bold text-slate-800">
+                  <span>시가총액</span>
+                  {renderSortIndicator('marketCap')}
                 </div>
               </th>
 
-              <th id="th-company-memo" className="py-3 px-3 w-[70px] text-center">
+              {/* 7. 메모 */}
+              <th id="th-company-memo" className="py-3 px-3 w-[125px] text-center">
                 메모
               </th>
             </tr>
@@ -292,7 +308,6 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
               const currentGrade = evalData?.grade;
               const hasMemo = Boolean(evalData?.memo && evalData.memo.trim().length > 0);
               const naverFinanceUrl = getNaverFinanceUrl(company.code);
-              const fnGuideUrl = getFnGuideUrl(company.code);
 
               const watchEntry = watchlist[company.code];
               const isStarred = Boolean(watchEntry);
@@ -308,7 +323,7 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
                   }`}
                   title="클릭하여 네이버 금융 종목분석(finance.naver.com) 열기"
                 >
-                  {/* Star Column */}
+                  {/* 1. 별표 (Star) */}
                   <td
                     className="py-3.5 px-2 text-center whitespace-nowrap"
                     onClick={(e) => e.stopPropagation()}
@@ -334,7 +349,7 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
                     </button>
                   </td>
 
-                  {/* Stock Code */}
+                  {/* 2. 종목코드 */}
                   <td className="py-3.5 px-3 font-mono text-xs text-slate-500 whitespace-nowrap">
                     <div className="flex items-center gap-1.5">
                       <span className="font-semibold text-slate-700">{company.code}</span>
@@ -354,13 +369,14 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
                     </div>
                   </td>
 
-                  {/* Company Name & Description */}
+                  {/* 3. 기업명 */}
                   <td className="py-3.5 px-4">
                     <div className="flex flex-col">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-bold text-slate-900 group-hover:text-emerald-700 transition-colors text-[15px]">
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="font-bold text-slate-900 group-hover:text-emerald-700 transition-colors text-[14px] sm:text-[15px]">
                           {company.name}
                         </span>
+                        <ExternalLink className="w-3 h-3 text-slate-300 group-hover:text-emerald-600 transition-colors shrink-0" />
                         {company.isCustom && (
                           <span className="text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded font-medium">
                             사용자추가
@@ -410,20 +426,22 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
                     </div>
                   </td>
 
-                  {/* Market (KOSPI/KOSDAQ) */}
+                  {/* 4. 시장 (KOSPI/KOSDAQ/KONEX) */}
                   <td className="py-3.5 px-3 whitespace-nowrap">
                     <span
                       className={`inline-block text-[11px] font-bold px-2 py-0.5 rounded ${
                         company.market === 'KOSPI'
                           ? 'bg-blue-50 text-blue-700 border border-blue-200/70'
-                          : 'bg-emerald-50 text-emerald-700 border border-emerald-200/70'
+                          : company.market === 'KOSDAQ'
+                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/70'
+                          : 'bg-purple-50 text-purple-700 border border-purple-200/70'
                       }`}
                     >
                       {company.market}
                     </span>
                   </td>
 
-                  {/* Sector */}
+                  {/* 5. 업종 */}
                   <td className="py-3.5 px-4 whitespace-nowrap">
                     <div className="flex flex-col">
                       <span className="text-xs font-semibold text-slate-800">{company.sector}</span>
@@ -433,58 +451,64 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
                     </div>
                   </td>
 
-                  {/* Analysis Link Action Buttons (Naver Finance & FnGuide) */}
-                  <td className="py-3.5 px-4 text-center whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
-                    <div className="inline-flex items-center gap-1.5 justify-center">
-                      <a
-                        id={`link-naver-${company.code}`}
-                        href={naverFinanceUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 hover:text-emerald-900 border border-emerald-300/90 rounded-md transition-colors shadow-2xs"
-                        title="새 탭에서 네이버 금융 종목분석 열기"
-                      >
-                        <span className="font-bold">네이버</span>
-                        <span>금융</span>
-                        <ExternalLink className="w-3 h-3 text-emerald-600" />
-                      </a>
-                      <a
-                        id={`link-fnguide-${company.code}`}
-                        href={fnGuideUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center px-1.5 py-1 text-[11px] font-medium text-slate-500 hover:text-blue-700 bg-slate-50 hover:bg-blue-50 border border-slate-200 rounded-md transition-colors"
-                        title="새 탭에서 FnGuide 기업분석 열기"
-                      >
-                        <span>FnGuide</span>
-                      </a>
+                  {/* 6. 시가총액 (단위: 억) & 당일 변동 */}
+                  <td className="py-3.5 px-4 text-right whitespace-nowrap">
+                    <div className="flex flex-col items-end">
+                      <span className="font-bold text-slate-900 tabular-nums text-xs sm:text-[13px]">
+                        {company.marketCapText || (company.marketCap ? `${company.marketCap.toLocaleString()}억` : '-')}
+                      </span>
+                      {company.changeRate !== undefined && (
+                        <div className="flex items-center gap-1 mt-0.5 text-[11px] tabular-nums font-semibold">
+                          {company.changeRate > 0 ? (
+                            <span className="text-rose-600 inline-flex items-center">
+                              ▲ +{company.changeRate}%
+                            </span>
+                          ) : company.changeRate < 0 ? (
+                            <span className="text-blue-600 inline-flex items-center">
+                              ▼ {company.changeRate}%
+                            </span>
+                          ) : (
+                            <span className="text-slate-400">
+                              0.0%
+                            </span>
+                          )}
+                          {company.price && (
+                            <span className="text-slate-400 font-normal text-[10px]">
+                              ({company.price}원)
+                            </span>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </td>
 
-                  {/* Ratings (A, B, C, F) */}
-                  <td className="py-3.5 px-4 text-center whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
-                    <RatingSelector
-                      currentGrade={currentGrade}
-                      onChange={(newGrade) => onRate(company.code, newGrade)}
-                      code={company.code}
-                    />
-                  </td>
-
-                  {/* Quick Memo */}
+                  {/* 7. 메모 (메모 및 등급) */}
                   <td className="py-3.5 px-3 text-center whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
-                    <button
-                      type="button"
-                      id={`btn-memo-${company.code}`}
-                      onClick={(e) => openMemoEditor(e, company.code)}
-                      title={hasMemo ? `메모: ${evalData?.memo}` : '메모 추가'}
-                      className={`p-1.5 rounded-lg border transition-all ${
-                        hasMemo
-                          ? 'bg-amber-50 text-amber-600 border-amber-200 hover:bg-amber-100'
-                          : 'bg-transparent text-slate-300 border-transparent hover:text-slate-600 hover:bg-slate-100'
-                      }`}
-                    >
-                      <FileText className="w-4 h-4" />
-                    </button>
+                    <div className="inline-flex items-center justify-center gap-1.5">
+                      {currentGrade && (
+                        <RatingBadge grade={currentGrade} size="sm" />
+                      )}
+                      <button
+                        type="button"
+                        id={`btn-memo-${company.code}`}
+                        onClick={(e) => openMemoEditor(e, company.code)}
+                        title={hasMemo ? `메모: ${evalData?.memo}` : '메모 작성 및 등급 평가'}
+                        className={`p-1.5 rounded-lg border transition-all cursor-pointer inline-flex items-center gap-1 ${
+                          hasMemo
+                            ? 'bg-amber-50 text-amber-700 border-amber-300/80 hover:bg-amber-100 shadow-2xs'
+                            : 'bg-slate-50 text-slate-400 border-slate-200 hover:text-slate-700 hover:bg-slate-100'
+                        }`}
+                      >
+                        <FileText className="w-3.5 h-3.5" />
+                        {hasMemo ? (
+                          <span className="text-[11px] font-bold text-amber-800 max-w-[60px] truncate">
+                            {evalData?.memo}
+                          </span>
+                        ) : (
+                          <span className="text-[11px] text-slate-400">작성</span>
+                        )}
+                      </button>
+                    </div>
                   </td>
                 </tr>
               );
@@ -643,30 +667,44 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
               />
             </div>
 
-            <div className="mt-4 flex items-center justify-between">
-              {evaluations[activeMemoCode]?.grade && (
-                <div className="flex items-center gap-1.5">
-                  <span className="text-xs text-slate-400">현재 평점:</span>
-                  <RatingBadge grade={evaluations[activeMemoCode]?.grade} size="sm" showLabel />
-                </div>
-              )}
-              <div className="flex items-center gap-2 ml-auto">
-                <button
-                  type="button"
-                  onClick={() => setActiveMemoCode(null)}
-                  className="px-3 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-lg"
-                >
-                  닫기
-                </button>
-                <button
-                  id="btn-save-memo"
-                  type="button"
-                  onClick={() => saveMemo(activeMemoCode)}
-                  className="px-4 py-1.5 text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-lg shadow-xs"
-                >
-                  메모 저장
-                </button>
+            <div className="mt-3 pt-3 border-t border-slate-100">
+              <label className="block text-xs font-semibold text-slate-600 mb-1.5">
+                투자 평가 등급 (S / A / B / F)
+              </label>
+              <div className="flex items-center gap-2 flex-wrap">
+                <RatingSelector
+                  currentGrade={evaluations[activeMemoCode]?.grade}
+                  onChange={(newGrade) => onRate(activeMemoCode, newGrade)}
+                  code={activeMemoCode}
+                />
+                {evaluations[activeMemoCode]?.grade && (
+                  <button
+                    type="button"
+                    onClick={() => onRate(activeMemoCode, null)}
+                    className="text-[11px] text-slate-400 hover:text-rose-500 underline ml-1 cursor-pointer"
+                  >
+                    평가 취소
+                  </button>
+                )}
               </div>
+            </div>
+
+            <div className="mt-4 flex items-center justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setActiveMemoCode(null)}
+                className="px-3 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-lg cursor-pointer"
+              >
+                닫기
+              </button>
+              <button
+                id="btn-save-memo"
+                type="button"
+                onClick={() => saveMemo(activeMemoCode)}
+                className="px-4 py-1.5 text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-lg shadow-xs cursor-pointer"
+              >
+                메모 저장
+              </button>
             </div>
           </div>
         </div>

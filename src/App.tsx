@@ -416,6 +416,13 @@ export default function App() {
           if (cmp === 0) {
             cmp = a.name.localeCompare(b.name, 'ko-KR');
           }
+        } else if (sortField === 'marketCap') {
+          const capA = a.marketCap || 0;
+          const capB = b.marketCap || 0;
+          cmp = capA - capB;
+          if (cmp === 0) {
+            cmp = a.name.localeCompare(b.name, 'ko-KR');
+          }
         }
 
         return sortDirection === 'asc' ? cmp : -cmp;
@@ -633,7 +640,7 @@ export default function App() {
             </span>
           </div>
           <span className="text-[11px] text-slate-400 hidden sm:inline">
-            정렬: {sortField === 'watchlist' ? '관심순' : sortField === 'sector' ? '업종별' : sortField === 'name' ? '종목명순' : sortField === 'code' ? '종목코드순' : sortField === 'rating' ? '내 평점순' : '시장구분순'} ({sortDirection === 'asc' ? '오름차순' : '내림차순'})
+            정렬: {sortField === 'watchlist' ? '관심순' : sortField === 'sector' ? '업종별' : sortField === 'name' ? '종목명순' : sortField === 'code' ? '종목코드순' : sortField === 'rating' ? '내 평점순' : sortField === 'marketCap' ? '시가총액순' : '시장구분순'} ({sortDirection === 'asc' ? '오름차순' : '내림차순'})
           </span>
         </div>
 
@@ -650,7 +657,7 @@ export default function App() {
               setSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'));
             } else {
               setSortField(field);
-              setSortDirection('asc');
+              setSortDirection(field === 'marketCap' ? 'desc' : 'asc');
             }
           }}
           watchlist={watchlist}
