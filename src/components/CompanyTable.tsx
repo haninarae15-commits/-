@@ -50,6 +50,8 @@ interface CompanyTableProps {
   onToggleShuffle?: () => void;
   pushRatedToBottom?: boolean;
   onTogglePushRatedToBottom?: () => void;
+  activeRatingFilter?: string;
+  onSelectRatingFilter?: (grade: RatingGrade | 'ALL') => void;
 }
 
 // Helper function to format market cap into easy Korean units (조, 억)
@@ -170,6 +172,8 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
   onToggleShuffle,
   pushRatedToBottom = true,
   onTogglePushRatedToBottom,
+  activeRatingFilter = 'ALL',
+  onSelectRatingFilter,
 }) => {
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
   const [activeMemoCode, setActiveMemoCode] = useState<string | null>(null);
@@ -436,27 +440,63 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
         id="rating-color-control-bar"
         className="px-4 py-2.5 bg-slate-50/90 border-b border-slate-200/80 flex flex-wrap items-center justify-between gap-3 text-xs"
       >
-        {/* Rating Legend */}
+        {/* Rating Legend / Interactive Filters */}
         <div className="flex items-center gap-2 flex-wrap">
           <span className="font-bold text-slate-700 flex items-center gap-1">
             <span>평가 등급:</span>
           </span>
-          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-200">
-            <span className="w-2 h-2 rounded-full bg-purple-600 inline-block"></span>
+          <button
+            type="button"
+            onClick={() => onSelectRatingFilter?.(activeRatingFilter === 'S' ? 'ALL' : 'S')}
+            className={`inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded border transition-all cursor-pointer ${
+              activeRatingFilter === 'S'
+                ? 'bg-purple-600 text-white border-purple-700 shadow-xs ring-2 ring-purple-300'
+                : 'text-purple-700 bg-purple-50 hover:bg-purple-100 border-purple-200'
+            }`}
+            title="S등급(무기한 보유) 기업만 불러오기 (클릭하여 토글)"
+          >
+            <span className={`w-2 h-2 rounded-full inline-block ${activeRatingFilter === 'S' ? 'bg-white' : 'bg-purple-600'}`}></span>
             S 무기한 보유
-          </span>
-          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-            <span className="w-2 h-2 rounded-full bg-emerald-600 inline-block"></span>
+          </button>
+          <button
+            type="button"
+            onClick={() => onSelectRatingFilter?.(activeRatingFilter === 'A' ? 'ALL' : 'A')}
+            className={`inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded border transition-all cursor-pointer ${
+              activeRatingFilter === 'A'
+                ? 'bg-emerald-600 text-white border-emerald-700 shadow-xs ring-2 ring-emerald-300'
+                : 'text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border-emerald-200'
+            }`}
+            title="A등급(기한 보유) 기업만 불러오기 (클릭하여 토글)"
+          >
+            <span className={`w-2 h-2 rounded-full inline-block ${activeRatingFilter === 'A' ? 'bg-white' : 'bg-emerald-600'}`}></span>
             A 기한 보유
-          </span>
-          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
-            <span className="w-2 h-2 rounded-full bg-blue-600 inline-block"></span>
+          </button>
+          <button
+            type="button"
+            onClick={() => onSelectRatingFilter?.(activeRatingFilter === 'B' ? 'ALL' : 'B')}
+            className={`inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded border transition-all cursor-pointer ${
+              activeRatingFilter === 'B'
+                ? 'bg-blue-600 text-white border-blue-700 shadow-xs ring-2 ring-blue-300'
+                : 'text-blue-700 bg-blue-50 hover:bg-blue-100 border-blue-200'
+            }`}
+            title="B등급(관망) 기업만 불러오기 (클릭하여 토글)"
+          >
+            <span className={`w-2 h-2 rounded-full inline-block ${activeRatingFilter === 'B' ? 'bg-white' : 'bg-blue-600'}`}></span>
             B 관망
-          </span>
-          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">
-            <span className="w-2 h-2 rounded-full bg-rose-600 inline-block"></span>
+          </button>
+          <button
+            type="button"
+            onClick={() => onSelectRatingFilter?.(activeRatingFilter === 'F' ? 'ALL' : 'F')}
+            className={`inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded border transition-all cursor-pointer ${
+              activeRatingFilter === 'F'
+                ? 'bg-rose-600 text-white border-rose-700 shadow-xs ring-2 ring-rose-300'
+                : 'text-rose-700 bg-rose-50 hover:bg-rose-100 border-rose-200'
+            }`}
+            title="F등급(매도/제외) 기업만 불러오기 (클릭하여 토글)"
+          >
+            <span className={`w-2 h-2 rounded-full inline-block ${activeRatingFilter === 'F' ? 'bg-white' : 'bg-rose-600'}`}></span>
             F 매도/제외
-          </span>
+          </button>
         </div>
 
         {/* Controls: Random Shuffle Status & Push-Rated-Bottom Toggle & Color Mode */}

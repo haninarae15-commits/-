@@ -826,7 +826,7 @@ export default function App() {
             </span>
 
             {/* Status indicators */}
-            {isRandomShuffled ? (
+            {isRandomShuffled && (
               <button
                 type="button"
                 onClick={handleToggleShuffle}
@@ -836,11 +836,181 @@ export default function App() {
                 <span>🎲 무작위 섞기 모드</span>
                 <span className="text-[10px] text-purple-600 underline ml-0.5">복귀 ↩</span>
               </button>
-            ) : pushRatedToBottom && sortField !== 'rating' ? (
-              <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200">
-                <span>⬇️ 미평가 상단 우선 (평가완료는 맨 아래로)</span>
+            )}
+
+            {/* 각 평가별 불러오기 탭 버튼 (Rating Quick Filter) */}
+            <div
+              id="rating-quick-filter-group"
+              className="inline-flex items-center gap-1 bg-white p-0.5 rounded-lg border border-slate-200/90 shadow-2xs flex-wrap ml-1"
+            >
+              <span className="text-[11px] font-bold text-slate-500 pl-1.5 pr-0.5 hidden md:inline">
+                평가별:
               </span>
-            ) : null}
+
+              {/* 전체 */}
+              <button
+                type="button"
+                id="btn-quick-filter-all"
+                onClick={() => setFilter((prev) => ({ ...prev, rating: 'ALL' }))}
+                className={`px-2 py-0.5 rounded text-[11px] font-bold transition-all cursor-pointer ${
+                  filter.rating === 'ALL'
+                    ? 'bg-slate-900 text-white shadow-xs'
+                    : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                }`}
+                title="전체 기업 목록을 불러옵니다"
+              >
+                전체
+              </button>
+
+              {/* S 무기한 보유 */}
+              <button
+                type="button"
+                id="btn-quick-filter-s"
+                onClick={() =>
+                  setFilter((prev) => ({
+                    ...prev,
+                    rating: prev.rating === 'S' ? 'ALL' : 'S',
+                  }))
+                }
+                className={`px-2 py-0.5 rounded text-[11px] font-bold transition-all cursor-pointer flex items-center gap-1 border ${
+                  filter.rating === 'S'
+                    ? 'bg-purple-600 text-white border-purple-700 shadow-xs'
+                    : 'bg-purple-50/80 text-purple-700 hover:bg-purple-100 border-purple-200/80'
+                }`}
+                title="S등급(무기한 보유) 기업만 불러옵니다 (클릭 시 토글)"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-purple-400 inline-block" />
+                <span>S 무기한</span>
+                <span
+                  className={`text-[10px] px-1 rounded-full font-black ${
+                    filter.rating === 'S'
+                      ? 'bg-purple-700 text-white'
+                      : 'bg-purple-200/80 text-purple-900'
+                  }`}
+                >
+                  {gradeCounts.counts.S}
+                </span>
+              </button>
+
+              {/* A 기한 보유 */}
+              <button
+                type="button"
+                id="btn-quick-filter-a"
+                onClick={() =>
+                  setFilter((prev) => ({
+                    ...prev,
+                    rating: prev.rating === 'A' ? 'ALL' : 'A',
+                  }))
+                }
+                className={`px-2 py-0.5 rounded text-[11px] font-bold transition-all cursor-pointer flex items-center gap-1 border ${
+                  filter.rating === 'A'
+                    ? 'bg-emerald-600 text-white border-emerald-700 shadow-xs'
+                    : 'bg-emerald-50/80 text-emerald-700 hover:bg-emerald-100 border-emerald-200/80'
+                }`}
+                title="A등급(기한 보유) 기업만 불러옵니다 (클릭 시 토글)"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
+                <span>A 기한</span>
+                <span
+                  className={`text-[10px] px-1 rounded-full font-black ${
+                    filter.rating === 'A'
+                      ? 'bg-emerald-700 text-white'
+                      : 'bg-emerald-200/80 text-emerald-900'
+                  }`}
+                >
+                  {gradeCounts.counts.A}
+                </span>
+              </button>
+
+              {/* B 관망 */}
+              <button
+                type="button"
+                id="btn-quick-filter-b"
+                onClick={() =>
+                  setFilter((prev) => ({
+                    ...prev,
+                    rating: prev.rating === 'B' ? 'ALL' : 'B',
+                  }))
+                }
+                className={`px-2 py-0.5 rounded text-[11px] font-bold transition-all cursor-pointer flex items-center gap-1 border ${
+                  filter.rating === 'B'
+                    ? 'bg-blue-600 text-white border-blue-700 shadow-xs'
+                    : 'bg-blue-50/80 text-blue-700 hover:bg-blue-100 border-blue-200/80'
+                }`}
+                title="B등급(관망) 기업만 불러옵니다 (클릭 시 토글)"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-400 inline-block" />
+                <span>B 관망</span>
+                <span
+                  className={`text-[10px] px-1 rounded-full font-black ${
+                    filter.rating === 'B'
+                      ? 'bg-blue-700 text-white'
+                      : 'bg-blue-200/80 text-blue-900'
+                  }`}
+                >
+                  {gradeCounts.counts.B}
+                </span>
+              </button>
+
+              {/* F 매도/제외 */}
+              <button
+                type="button"
+                id="btn-quick-filter-f"
+                onClick={() =>
+                  setFilter((prev) => ({
+                    ...prev,
+                    rating: prev.rating === 'F' ? 'ALL' : 'F',
+                  }))
+                }
+                className={`px-2 py-0.5 rounded text-[11px] font-bold transition-all cursor-pointer flex items-center gap-1 border ${
+                  filter.rating === 'F'
+                    ? 'bg-rose-600 text-white border-rose-700 shadow-xs'
+                    : 'bg-rose-50/80 text-rose-700 hover:bg-rose-100 border-rose-200/80'
+                }`}
+                title="F등급(매도/제외) 기업만 불러옵니다 (클릭 시 토글)"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-rose-400 inline-block" />
+                <span>F 매도</span>
+                <span
+                  className={`text-[10px] px-1 rounded-full font-black ${
+                    filter.rating === 'F'
+                      ? 'bg-rose-700 text-white'
+                      : 'bg-rose-200/80 text-rose-900'
+                  }`}
+                >
+                  {gradeCounts.counts.F}
+                </span>
+              </button>
+
+              {/* 미평가만 */}
+              <button
+                type="button"
+                id="btn-quick-filter-unrated"
+                onClick={() =>
+                  setFilter((prev) => ({
+                    ...prev,
+                    rating: prev.rating === 'UNRATED' ? 'ALL' : 'UNRATED',
+                  }))
+                }
+                className={`px-2 py-0.5 rounded text-[11px] font-bold transition-all cursor-pointer flex items-center gap-1 border ${
+                  filter.rating === 'UNRATED'
+                    ? 'bg-slate-800 text-white border-slate-900 shadow-xs'
+                    : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border-slate-200'
+                }`}
+                title="아직 평가하지 않은 미평가 기업만 불러옵니다 (클릭 시 토글)"
+              >
+                <span>미평가</span>
+                <span
+                  className={`text-[10px] px-1 rounded-full font-black ${
+                    filter.rating === 'UNRATED'
+                      ? 'bg-slate-900 text-white'
+                      : 'bg-slate-200 text-slate-700'
+                  }`}
+                >
+                  {gradeCounts.unrated}
+                </span>
+              </button>
+            </div>
           </div>
           <span className="text-[11px] text-slate-400 hidden sm:inline">
             {isRandomShuffled ? (
@@ -888,6 +1058,8 @@ export default function App() {
           onToggleShuffle={handleToggleShuffle}
           pushRatedToBottom={pushRatedToBottom}
           onTogglePushRatedToBottom={() => setPushRatedToBottom((prev) => !prev)}
+          activeRatingFilter={filter.rating}
+          onSelectRatingFilter={(grade) => setFilter((prev) => ({ ...prev, rating: grade }))}
         />
       </main>
 
