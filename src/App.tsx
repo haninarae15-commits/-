@@ -487,6 +487,7 @@ export default function App() {
           filter.rating === 'S' ||
           filter.rating === 'A' ||
           filter.rating === 'B' ||
+          filter.rating === 'C' ||
           filter.rating === 'F'
         ) {
           if (currentGrade !== filter.rating) return false;
@@ -964,12 +965,16 @@ export default function App() {
                 }
                 className={`px-2 py-0.5 rounded text-[11px] font-bold transition-all cursor-pointer flex items-center gap-1 border ${
                   filter.rating === 'C'
-                    ? 'bg-amber-500 text-white border-amber-600 shadow-xs'
+                    ? 'bg-amber-500 text-white border-amber-600 shadow-xs ring-2 ring-amber-300'
                     : 'bg-amber-50/80 text-amber-700 hover:bg-amber-100 border-amber-200/80'
                 }`}
                 title="C등급(관망) 기업만 불러옵니다 (클릭 시 토글)"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block" />
+                <span
+                  className={`w-1.5 h-1.5 rounded-full inline-block ${
+                    filter.rating === 'C' ? 'bg-white' : 'bg-amber-500'
+                  }`}
+                />
                 <span>C 관망</span>
                 <span
                   className={`text-[10px] px-1 rounded-full font-black ${

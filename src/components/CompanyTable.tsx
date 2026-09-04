@@ -213,7 +213,7 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
         case 'B':
           return 'bg-blue-50/70 hover:bg-blue-100/80 border-l-4 border-l-blue-500';
         case 'C':
-          return 'bg-amber-50/70 hover:bg-amber-100/80 border-l-4 border-l-amber-500';
+          return 'bg-amber-100/50 hover:bg-amber-100/80 border-l-4 border-l-amber-500';
         case 'F':
           return 'bg-rose-50/70 hover:bg-rose-100/80 border-l-4 border-l-rose-500';
       }
