@@ -28,6 +28,8 @@ import {
   Star,
   Folder,
   Layers,
+  Shuffle,
+  RotateCcw,
 } from 'lucide-react';
 
 interface CompanyTableProps {
@@ -44,6 +46,10 @@ interface CompanyTableProps {
   onChangeCompanyFolder: (companyCode: string, newFolderId: string) => void;
   activeViewTab?: ViewTab;
   onSwitchToAllTab?: () => void;
+  isRandomShuffled?: boolean;
+  onToggleShuffle?: () => void;
+  pushRatedToBottom?: boolean;
+  onTogglePushRatedToBottom?: () => void;
 }
 
 // Helper function to format market cap into easy Korean units (조, 억)
@@ -160,6 +166,10 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
   onChangeCompanyFolder,
   activeViewTab = 'ALL',
   onSwitchToAllTab,
+  isRandomShuffled = false,
+  onToggleShuffle,
+  pushRatedToBottom = true,
+  onTogglePushRatedToBottom,
 }) => {
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
   const [activeMemoCode, setActiveMemoCode] = useState<string | null>(null);
@@ -449,35 +459,76 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
           </span>
         </div>
 
-        {/* Color Highlight Mode Toggle */}
-        <div className="flex items-center gap-1.5 bg-white p-1 rounded-lg border border-slate-200 shadow-2xs">
-          <span className="text-[11px] font-semibold text-slate-500 pl-1">색상 강조:</span>
-          <button
-            type="button"
-            id="btn-color-mode-row"
-            onClick={() => handleColorModeChange('row')}
-            className={`px-2 py-1 rounded text-xs font-bold transition-all cursor-pointer flex items-center gap-1 ${
-              colorMode === 'row'
-                ? 'bg-slate-900 text-white shadow-xs'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-            }`}
-            title="평가 등급에 따라 전체 행에 은은한 테마 색상을 칠합니다"
-          >
-            <span>🎨 전체 행 색칠</span>
-          </button>
-          <button
-            type="button"
-            id="btn-color-mode-name"
-            onClick={() => handleColorModeChange('name')}
-            className={`px-2 py-1 rounded text-xs font-bold transition-all cursor-pointer flex items-center gap-1 ${
-              colorMode === 'name'
-                ? 'bg-slate-900 text-white shadow-xs'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-            }`}
-            title="평가 등급에 따라 기업명에만 테마 색상을 칠합니다"
-          >
-            <span>🏷️ 기업명만 색칠</span>
-          </button>
+        {/* Controls: Random Shuffle Status & Push-Rated-Bottom Toggle & Color Mode */}
+        <div className="flex items-center gap-2 flex-wrap">
+          {/* 1. 무작위 섞기 활성 시 상태 배지 및 복귀 버튼 */}
+          {isRandomShuffled && onToggleShuffle && (
+            <button
+              type="button"
+              id="btn-table-restore-shuffle"
+              onClick={onToggleShuffle}
+              className="px-2.5 py-1 rounded-lg text-xs font-bold bg-purple-600 hover:bg-purple-700 text-white shadow-xs transition-all cursor-pointer flex items-center gap-1.5"
+              title="현재 무작위 섞기 모드입니다. 클릭 시 원래 정렬로 복귀합니다"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+              <span>무작위 섞기 활성 중 (원래 정렬 복귀)</span>
+            </button>
+          )}
+
+          {/* 2. 평가완료 종목 맨 아래로 보내기 토글 */}
+          {onTogglePushRatedToBottom && (
+            <button
+              type="button"
+              id="btn-toggle-push-rated-bottom"
+              onClick={onTogglePushRatedToBottom}
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 border select-none ${
+                pushRatedToBottom
+                  ? 'bg-blue-50 text-blue-800 border-blue-300 shadow-2xs'
+                  : 'bg-white text-slate-500 hover:text-slate-800 border-slate-200'
+              }`}
+              title="평가완료(S/A/B/F)한 기업을 자동으로 목록 맨 아래로 이동시켜 미평가 기업만 상단에 유지합니다"
+            >
+              <span>⬇️ 평가완료 맨 아래로</span>
+              <span
+                className={`px-1.5 py-0.2 rounded text-[10px] font-black ${
+                  pushRatedToBottom ? 'bg-blue-600 text-white' : 'bg-slate-200 text-slate-600'
+                }`}
+              >
+                {pushRatedToBottom ? 'ON' : 'OFF'}
+              </span>
+            </button>
+          )}
+
+          {/* 3. Color Highlight Mode Toggle */}
+          <div className="flex items-center gap-1.5 bg-white p-1 rounded-lg border border-slate-200 shadow-2xs">
+            <span className="text-[11px] font-semibold text-slate-500 pl-1">색상 강조:</span>
+            <button
+              type="button"
+              id="btn-color-mode-row"
+              onClick={() => handleColorModeChange('row')}
+              className={`px-2 py-1 rounded text-xs font-bold transition-all cursor-pointer flex items-center gap-1 ${
+                colorMode === 'row'
+                  ? 'bg-slate-900 text-white shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+              }`}
+              title="평가 등급에 따라 전체 행에 은은한 테마 색상을 칠합니다"
+            >
+              <span>🎨 전체 행 색칠</span>
+            </button>
+            <button
+              type="button"
+              id="btn-color-mode-name"
+              onClick={() => handleColorModeChange('name')}
+              className={`px-2 py-1 rounded text-xs font-bold transition-all cursor-pointer flex items-center gap-1 ${
+                colorMode === 'name'
+                  ? 'bg-slate-900 text-white shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+              }`}
+              title="평가 등급에 따라 기업명에만 테마 색상을 칠합니다"
+            >
+              <span>🏷️ 기업명만 색칠</span>
+            </button>
+          </div>
         </div>
       </div>
 

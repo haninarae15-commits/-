@@ -258,6 +258,13 @@ export default function App() {
   const [sortField, setSortField] = useState<SortField>('sector');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
 
+  // Random shuffle mode state (category & rating agnostic shuffle)
+  const [isRandomShuffled, setIsRandomShuffled] = useState<boolean>(false);
+  const [shuffleSeed, setShuffleSeed] = useState<number>(0);
+
+  // Push evaluated/rated companies to bottom (Default: true)
+  const [pushRatedToBottom, setPushRatedToBottom] = useState<boolean>(true);
+
   // Modals state
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isDataModalOpen, setIsDataModalOpen] = useState(false);
@@ -448,9 +455,8 @@ export default function App() {
 
   // Filter & Sort Pipeline
   const filteredAndSortedCompanies = useMemo(() => {
-    return allCompanies
-      .filter((company) => {
-        // Watchlist Tab Filter
+    const filtered = allCompanies.filter((company) => {
+      // Watchlist Tab Filter
         if (activeViewTab === 'WATCHLIST') {
           const entry = watchlist[company.code];
           if (!entry) return false;
@@ -502,50 +508,75 @@ export default function App() {
         }
 
         return true;
-      })
-      .sort((a, b) => {
-        let cmp = 0;
-
-        if (sortField === 'watchlist') {
-          const starA = watchlist[a.code] ? 1 : 0;
-          const starB = watchlist[b.code] ? 1 : 0;
-          cmp = starB - starA; // Starred items first
-          if (cmp === 0) {
-            cmp = a.name.localeCompare(b.name, 'ko-KR');
-          }
-        } else if (sortField === 'sector') {
-          cmp = a.sector.localeCompare(b.sector, 'ko-KR');
-          if (cmp === 0) {
-            cmp = a.name.localeCompare(b.name, 'ko-KR');
-          }
-        } else if (sortField === 'name') {
-          cmp = a.name.localeCompare(b.name, 'ko-KR');
-        } else if (sortField === 'code') {
-          cmp = a.code.localeCompare(b.code);
-        } else if (sortField === 'market') {
-          cmp = a.market.localeCompare(b.market);
-        } else if (sortField === 'rating') {
-          const rankMap: Record<string, number> = { S: 1, A: 2, B: 3, F: 4 };
-          const rankA = evaluations[a.code]?.grade ? rankMap[evaluations[a.code].grade!] : 5;
-          const rankB = evaluations[b.code]?.grade ? rankMap[evaluations[b.code].grade!] : 5;
-          cmp = rankA - rankB;
-          if (cmp === 0) {
-            cmp = a.name.localeCompare(b.name, 'ko-KR');
-          }
-        } else if (sortField === 'marketCap') {
-          const capA = a.marketCap || 0;
-          const capB = b.marketCap || 0;
-          if (capA === 0 && capB > 0) return 1;
-          if (capB === 0 && capA > 0) return -1;
-          cmp = sortDirection === 'asc' ? capA - capB : capB - capA;
-          if (cmp === 0) {
-            cmp = a.name.localeCompare(b.name, 'ko-KR');
-          }
-          return cmp;
-        }
-
-        return sortDirection === 'asc' ? cmp : -cmp;
       });
+
+    // 1. Random Shuffle Mode:
+    // Disregard ratings, sector categories, market caps, etc. and shuffle randomly!
+    if (isRandomShuffled) {
+      const shuffled = [...filtered];
+      let seed = shuffleSeed || 42;
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        seed = (seed * 9301 + 49297) % 233280;
+        const j = Math.floor((seed / 233280) * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    }
+
+    // 2. Normal sorting mode (with automatic 'push evaluated to bottom' behavior)
+    return filtered.sort((a, b) => {
+      // If pushRatedToBottom is active and user didn't explicitly select 'rating' sort,
+      // push evaluated (S, A, B, F) companies to the bottom so unrated companies stay on top
+      if (pushRatedToBottom && sortField !== 'rating') {
+        const isRatedA = Boolean(evaluations[a.code]?.grade);
+        const isRatedB = Boolean(evaluations[b.code]?.grade);
+        if (isRatedA !== isRatedB) {
+          return isRatedA ? 1 : -1; // Unrated first, rated to bottom
+        }
+      }
+
+      let cmp = 0;
+
+      if (sortField === 'watchlist') {
+        const starA = watchlist[a.code] ? 1 : 0;
+        const starB = watchlist[b.code] ? 1 : 0;
+        cmp = starB - starA; // Starred items first
+        if (cmp === 0) {
+          cmp = a.name.localeCompare(b.name, 'ko-KR');
+        }
+      } else if (sortField === 'sector') {
+        cmp = a.sector.localeCompare(b.sector, 'ko-KR');
+        if (cmp === 0) {
+          cmp = a.name.localeCompare(b.name, 'ko-KR');
+        }
+      } else if (sortField === 'name') {
+        cmp = a.name.localeCompare(b.name, 'ko-KR');
+      } else if (sortField === 'code') {
+        cmp = a.code.localeCompare(b.code);
+      } else if (sortField === 'market') {
+        cmp = a.market.localeCompare(b.market);
+      } else if (sortField === 'rating') {
+        const rankMap: Record<string, number> = { S: 1, A: 2, B: 3, F: 4 };
+        const rankA = evaluations[a.code]?.grade ? rankMap[evaluations[a.code].grade!] : 5;
+        const rankB = evaluations[b.code]?.grade ? rankMap[evaluations[b.code].grade!] : 5;
+        cmp = rankA - rankB;
+        if (cmp === 0) {
+          cmp = a.name.localeCompare(b.name, 'ko-KR');
+        }
+      } else if (sortField === 'marketCap') {
+        const capA = a.marketCap || 0;
+        const capB = b.marketCap || 0;
+        if (capA === 0 && capB > 0) return 1;
+        if (capB === 0 && capA > 0) return -1;
+        cmp = sortDirection === 'asc' ? capA - capB : capB - capA;
+        if (cmp === 0) {
+          cmp = a.name.localeCompare(b.name, 'ko-KR');
+        }
+        return cmp;
+      }
+
+      return sortDirection === 'asc' ? cmp : -cmp;
+    });
   }, [
     allCompanies,
     evaluations,
@@ -555,9 +586,16 @@ export default function App() {
     filter,
     sortField,
     sortDirection,
+    isRandomShuffled,
+    shuffleSeed,
+    pushRatedToBottom,
   ]);
 
   const handleSortChange = (field: SortField, direction?: SortDirection) => {
+    // If random shuffle was on, turning on an explicit sort returns to normal
+    if (isRandomShuffled) {
+      setIsRandomShuffled(false);
+    }
     if (direction) {
       setSortField(field);
       setSortDirection(direction);
@@ -567,6 +605,20 @@ export default function App() {
       setSortField(field);
       setSortDirection(field === 'marketCap' ? 'desc' : 'asc');
     }
+  };
+
+  const handleToggleShuffle = () => {
+    setIsRandomShuffled((prev) => {
+      if (!prev) {
+        setShuffleSeed(Date.now());
+        return true;
+      }
+      return false;
+    });
+  };
+
+  const handleReshuffle = () => {
+    setShuffleSeed(Date.now());
   };
 
   return (
@@ -731,6 +783,9 @@ export default function App() {
           status={syncStatus}
           totalCompanies={allCompanies.length}
           onSync={handleSyncMarketCap}
+          isRandomShuffled={isRandomShuffled}
+          onToggleShuffle={handleToggleShuffle}
+          onReshuffle={handleReshuffle}
         />
 
         {/* Filter & Sort Controls */}
@@ -753,8 +808,8 @@ export default function App() {
         />
 
         {/* Results Header indicator */}
-        <div className="flex items-center justify-between px-1 mb-2.5 text-xs text-slate-500">
-          <div className="flex items-center gap-1.5">
+        <div className="flex items-center justify-between px-1 mb-2.5 text-xs text-slate-500 flex-wrap gap-2">
+          <div className="flex items-center gap-1.5 flex-wrap">
             <SlidersHorizontal className="w-3.5 h-3.5 text-slate-400" />
             <span>
               {activeViewTab === 'WATCHLIST' ? '관심기업 목록' : '상장사 목록'}: 총{' '}
@@ -769,25 +824,48 @@ export default function App() {
                 )
               )}
             </span>
+
+            {/* Status indicators */}
+            {isRandomShuffled ? (
+              <button
+                type="button"
+                onClick={handleToggleShuffle}
+                className="inline-flex items-center gap-1 text-[11px] font-bold text-purple-800 bg-purple-100 hover:bg-purple-200 px-2 py-0.5 rounded-full border border-purple-200 transition-colors cursor-pointer"
+                title="클릭 시 원래 정렬로 즉시 복귀합니다"
+              >
+                <span>🎲 무작위 섞기 모드</span>
+                <span className="text-[10px] text-purple-600 underline ml-0.5">복귀 ↩</span>
+              </button>
+            ) : pushRatedToBottom && sortField !== 'rating' ? (
+              <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200">
+                <span>⬇️ 미평가 상단 우선 (평가완료는 맨 아래로)</span>
+              </span>
+            ) : null}
           </div>
           <span className="text-[11px] text-slate-400 hidden sm:inline">
-            정렬:{' '}
-            {sortField === 'watchlist'
-              ? '관심순'
-              : sortField === 'sector'
-              ? '업종별'
-              : sortField === 'name'
-              ? '종목명순'
-              : sortField === 'code'
-              ? '종목코드순'
-              : sortField === 'rating'
-              ? '내 평점순'
-              : sortField === 'marketCap'
-              ? sortDirection === 'desc'
-                ? '시가총액 높은순(내림차순)'
-                : '시가총액 낮은순(오름차순)'
-              : '시장구분순'}{' '}
-            ({sortDirection === 'asc' ? '오름차순' : '내림차순'})
+            {isRandomShuffled ? (
+              <span className="font-bold text-purple-700">무작위 순서 (정렬 해제됨)</span>
+            ) : (
+              <>
+                정렬:{' '}
+                {sortField === 'watchlist'
+                  ? '관심순'
+                  : sortField === 'sector'
+                  ? '업종별'
+                  : sortField === 'name'
+                  ? '종목명순'
+                  : sortField === 'code'
+                  ? '종목코드순'
+                  : sortField === 'rating'
+                  ? '내 평점순'
+                  : sortField === 'marketCap'
+                  ? sortDirection === 'desc'
+                    ? '시가총액 높은순(내림차순)'
+                    : '시가총액 낮은순(오름차순)'
+                  : '시장구분순'}{' '}
+                ({sortDirection === 'asc' ? '오름차순' : '내림차순'})
+              </>
+            )}
           </span>
         </div>
 
@@ -806,6 +884,10 @@ export default function App() {
           onChangeCompanyFolder={handleChangeCompanyFolder}
           activeViewTab={activeViewTab}
           onSwitchToAllTab={() => setActiveViewTab('ALL')}
+          isRandomShuffled={isRandomShuffled}
+          onToggleShuffle={handleToggleShuffle}
+          pushRatedToBottom={pushRatedToBottom}
+          onTogglePushRatedToBottom={() => setPushRatedToBottom((prev) => !prev)}
         />
       </main>
 
