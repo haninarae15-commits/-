@@ -60,6 +60,92 @@ export function formatKoreanMarketCap(capInEok?: number): string {
   return `${capInEok.toLocaleString()}억원`;
 }
 
+// Inline rating check button group component placed right next to company name
+interface InlineRatingCheckProps {
+  companyCode: string;
+  currentGrade?: RatingGrade | null;
+  onRate: (code: string, grade: RatingGrade | null) => void;
+}
+
+const InlineRatingCheck: React.FC<InlineRatingCheckProps> = ({
+  companyCode,
+  currentGrade,
+  onRate,
+}) => {
+  const grades: { grade: RatingGrade; label: string; activeClass: string; inactiveClass: string }[] = [
+    {
+      grade: 'S',
+      label: 'S등급 (무기한 보유)',
+      activeClass: 'bg-purple-600 text-white border-purple-700 shadow-xs font-black ring-2 ring-purple-300',
+      inactiveClass: 'text-purple-700 bg-purple-50 hover:bg-purple-100 border-purple-200 hover:border-purple-300',
+    },
+    {
+      grade: 'A',
+      label: 'A등급 (기한 보유)',
+      activeClass: 'bg-emerald-600 text-white border-emerald-700 shadow-xs font-black ring-2 ring-emerald-300',
+      inactiveClass: 'text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border-emerald-200 hover:border-emerald-300',
+    },
+    {
+      grade: 'B',
+      label: 'B등급 (관망)',
+      activeClass: 'bg-blue-600 text-white border-blue-700 shadow-xs font-black ring-2 ring-blue-300',
+      inactiveClass: 'text-blue-700 bg-blue-50 hover:bg-blue-100 border-blue-200 hover:border-blue-300',
+    },
+    {
+      grade: 'F',
+      label: 'F등급 (매도/제외)',
+      activeClass: 'bg-rose-600 text-white border-rose-700 shadow-xs font-black ring-2 ring-rose-300',
+      inactiveClass: 'text-rose-700 bg-rose-50 hover:bg-rose-100 border-rose-200 hover:border-rose-300',
+    },
+  ];
+
+  return (
+    <div
+      id={`inline-rating-group-${companyCode}`}
+      className="inline-flex items-center gap-0.5 bg-slate-100/90 p-0.5 rounded-lg border border-slate-200/90 shrink-0"
+      onClick={(e) => e.stopPropagation()}
+      title="기업 평가 등급 체크 (클릭하여 선택/해제)"
+    >
+      {grades.map((item) => {
+        const isChecked = currentGrade === item.grade;
+        return (
+          <button
+            key={item.grade}
+            type="button"
+            id={`btn-rate-${companyCode}-${item.grade}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              onRate(companyCode, isChecked ? null : item.grade);
+            }}
+            title={`${item.label}${isChecked ? ' - 클릭 시 체크 해제' : ' - 클릭하여 평가 체크'}`}
+            className={`min-w-[23px] h-[22px] px-1 text-[11px] font-bold rounded flex items-center justify-center transition-all cursor-pointer border select-none ${
+              isChecked
+                ? `${item.activeClass} scale-105`
+                : item.inactiveClass
+            }`}
+          >
+            {item.grade}
+          </button>
+        );
+      })}
+      {currentGrade && (
+        <button
+          type="button"
+          id={`btn-inline-clear-${companyCode}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            onRate(companyCode, null);
+          }}
+          title="평가 해제 (미평가)"
+          className="w-4 h-[22px] flex items-center justify-center text-[10px] text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded transition-colors cursor-pointer"
+        >
+          ✕
+        </button>
+      )}
+    </div>
+  );
+};
+
 export const CompanyTable: React.FC<CompanyTableProps> = ({
   companies,
   evaluations,
@@ -80,6 +166,109 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
   const [memoDraft, setMemoDraft] = useState('');
   const [pageSize, setPageSize] = useState<number>(50);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [colorMode, setColorMode] = useState<'row' | 'name'>(() => {
+    try {
+      const saved = localStorage.getItem('krx_rating_color_mode');
+      return saved === 'name' ? 'name' : 'row';
+    } catch {
+      return 'row';
+    }
+  });
+
+  const handleColorModeChange = (mode: 'row' | 'name') => {
+    setColorMode(mode);
+    try {
+      localStorage.setItem('krx_rating_color_mode', mode);
+    } catch {}
+  };
+
+  // Helper for row rating background
+  const getRowRatingClass = (grade?: RatingGrade | null, isStarred?: boolean, mode: 'row' | 'name' = 'row') => {
+    if (mode === 'row' && grade) {
+      switch (grade) {
+        case 'S':
+          return 'bg-purple-50/70 hover:bg-purple-100/80 border-l-4 border-l-purple-500';
+        case 'A':
+          return 'bg-emerald-50/70 hover:bg-emerald-100/80 border-l-4 border-l-emerald-500';
+        case 'B':
+          return 'bg-blue-50/70 hover:bg-blue-100/80 border-l-4 border-l-blue-500';
+        case 'F':
+          return 'bg-rose-50/70 hover:bg-rose-100/80 border-l-4 border-l-rose-500';
+      }
+    }
+    if (isStarred) {
+      return 'bg-amber-50/25 hover:bg-amber-50/60 border-l-4 border-l-amber-400';
+    }
+    return 'bg-white hover:bg-slate-50 border-l-4 border-l-transparent';
+  };
+
+  // Helper for company name rating style
+  const getNameRatingStyle = (grade?: RatingGrade | null, mode: 'row' | 'name' = 'row') => {
+    if (!grade) {
+      return {
+        boxClass: '',
+        textClass: 'text-slate-900 group-hover:text-emerald-700',
+        badgeClass: '',
+      };
+    }
+
+    if (mode === 'name') {
+      switch (grade) {
+        case 'S':
+          return {
+            boxClass: 'bg-purple-100/90 border border-purple-300 px-2 py-0.5 rounded-md shadow-2xs',
+            textClass: 'text-purple-950 font-black',
+            badgeClass: 'bg-purple-600 text-white font-black text-[10px] px-1.5 py-0.5 rounded shadow-2xs',
+          };
+        case 'A':
+          return {
+            boxClass: 'bg-emerald-100/90 border border-emerald-300 px-2 py-0.5 rounded-md shadow-2xs',
+            textClass: 'text-emerald-950 font-black',
+            badgeClass: 'bg-emerald-600 text-white font-black text-[10px] px-1.5 py-0.5 rounded shadow-2xs',
+          };
+        case 'B':
+          return {
+            boxClass: 'bg-blue-100/90 border border-blue-300 px-2 py-0.5 rounded-md shadow-2xs',
+            textClass: 'text-blue-950 font-black',
+            badgeClass: 'bg-blue-600 text-white font-black text-[10px] px-1.5 py-0.5 rounded shadow-2xs',
+          };
+        case 'F':
+          return {
+            boxClass: 'bg-rose-100/90 border border-rose-300 px-2 py-0.5 rounded-md shadow-2xs',
+            textClass: 'text-rose-950 font-black',
+            badgeClass: 'bg-rose-600 text-white font-black text-[10px] px-1.5 py-0.5 rounded shadow-2xs',
+          };
+      }
+    }
+
+    // mode === 'row'
+    switch (grade) {
+      case 'S':
+        return {
+          boxClass: '',
+          textClass: 'text-purple-950 font-extrabold',
+          badgeClass: 'bg-purple-600 text-white font-bold text-[10px] px-1 py-0.2 rounded shadow-2xs',
+        };
+      case 'A':
+        return {
+          boxClass: '',
+          textClass: 'text-emerald-950 font-extrabold',
+          badgeClass: 'bg-emerald-600 text-white font-bold text-[10px] px-1 py-0.2 rounded shadow-2xs',
+        };
+      case 'B':
+        return {
+          boxClass: '',
+          textClass: 'text-blue-950 font-extrabold',
+          badgeClass: 'bg-blue-600 text-white font-bold text-[10px] px-1 py-0.2 rounded shadow-2xs',
+        };
+      case 'F':
+        return {
+          boxClass: '',
+          textClass: 'text-rose-950 font-extrabold',
+          badgeClass: 'bg-rose-600 text-white font-bold text-[10px] px-1 py-0.2 rounded shadow-2xs',
+        };
+    }
+  };
 
   // Reset to first page if companies filter list shrinks
   const totalPages = Math.max(1, Math.ceil(companies.length / pageSize));
@@ -232,6 +421,66 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
 
   return (
     <div id="companies-table-container" className="bg-white border border-slate-200/80 rounded-xl shadow-xs overflow-hidden">
+      {/* Rating Legend & Color Highlight Mode Switcher Bar */}
+      <div
+        id="rating-color-control-bar"
+        className="px-4 py-2.5 bg-slate-50/90 border-b border-slate-200/80 flex flex-wrap items-center justify-between gap-3 text-xs"
+      >
+        {/* Rating Legend */}
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="font-bold text-slate-700 flex items-center gap-1">
+            <span>평가 등급:</span>
+          </span>
+          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-200">
+            <span className="w-2 h-2 rounded-full bg-purple-600 inline-block"></span>
+            S 무기한 보유
+          </span>
+          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+            <span className="w-2 h-2 rounded-full bg-emerald-600 inline-block"></span>
+            A 기한 보유
+          </span>
+          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
+            <span className="w-2 h-2 rounded-full bg-blue-600 inline-block"></span>
+            B 관망
+          </span>
+          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">
+            <span className="w-2 h-2 rounded-full bg-rose-600 inline-block"></span>
+            F 매도/제외
+          </span>
+        </div>
+
+        {/* Color Highlight Mode Toggle */}
+        <div className="flex items-center gap-1.5 bg-white p-1 rounded-lg border border-slate-200 shadow-2xs">
+          <span className="text-[11px] font-semibold text-slate-500 pl-1">색상 강조:</span>
+          <button
+            type="button"
+            id="btn-color-mode-row"
+            onClick={() => handleColorModeChange('row')}
+            className={`px-2 py-1 rounded text-xs font-bold transition-all cursor-pointer flex items-center gap-1 ${
+              colorMode === 'row'
+                ? 'bg-slate-900 text-white shadow-xs'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+            }`}
+            title="평가 등급에 따라 전체 행에 은은한 테마 색상을 칠합니다"
+          >
+            <span>🎨 전체 행 색칠</span>
+          </button>
+          <button
+            type="button"
+            id="btn-color-mode-name"
+            onClick={() => handleColorModeChange('name')}
+            className={`px-2 py-1 rounded text-xs font-bold transition-all cursor-pointer flex items-center gap-1 ${
+              colorMode === 'name'
+                ? 'bg-slate-900 text-white shadow-xs'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+            }`}
+            title="평가 등급에 따라 기업명에만 테마 색상을 칠합니다"
+          >
+            <span>🏷️ 기업명만 색칠</span>
+          </button>
+        </div>
+      </div>
+
       {/* Desktop & Tablet Table */}
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse min-w-[760px]">
@@ -261,14 +510,14 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
                 </div>
               </th>
 
-              {/* 3. 기업명 */}
+              {/* 3. 기업명 & 평가 */}
               <th
                 id="th-company-name"
-                className="py-3 px-4 min-w-[180px] cursor-pointer hover:bg-slate-100 transition-colors group"
+                className="py-3 px-4 min-w-[280px] cursor-pointer hover:bg-slate-100 transition-colors group"
                 onClick={() => onSortChange('name')}
               >
                 <div className="flex items-center gap-1.5">
-                  <span>기업명</span>
+                  <span>기업명 & 평가 (S/A/B/F)</span>
                   {renderSortIndicator('name')}
                 </div>
               </th>
@@ -285,13 +534,14 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
                 </div>
               </th>
 
-              {/* 5. 업종 */}
+              {/* 5. 업종 (폭 축소) */}
               <th
                 id="th-company-sector"
-                className="py-3 px-4 w-[160px] cursor-pointer hover:bg-slate-100 transition-colors group"
+                className="py-3 px-3 w-[95px] sm:w-[105px] cursor-pointer hover:bg-slate-100 transition-colors group"
                 onClick={() => onSortChange('sector')}
+                title="업종 정렬"
               >
-                <div className="flex items-center gap-1.5 text-slate-800 font-bold">
+                <div className="flex items-center gap-1 text-slate-800 font-bold text-xs">
                   <span>업종</span>
                   {renderSortIndicator('sector')}
                 </div>
@@ -300,7 +550,7 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
               {/* 6. 시가총액 */}
               <th
                 id="th-company-marketcap"
-                className={`py-3 px-4 w-[165px] text-right cursor-pointer transition-colors group select-none ${
+                className={`py-3 px-4 w-[160px] text-right cursor-pointer transition-colors group select-none ${
                   sortField === 'marketCap' ? 'bg-blue-50 text-blue-900' : 'hover:bg-slate-100 text-slate-800'
                 }`}
                 onClick={() => {
@@ -334,15 +584,15 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
               const watchEntry = watchlist[company.code];
               const isStarred = Boolean(watchEntry);
               const folderInfo = isStarred ? getFolderInfo(watchEntry.folderId) : null;
+              const rowRatingClass = getRowRatingClass(currentGrade, isStarred, colorMode);
+              const nameStyle = getNameRatingStyle(currentGrade, colorMode);
 
               return (
                 <tr
                   key={company.code}
                   id={`company-row-${company.code}`}
                   onClick={() => handleOpenNaverFinance(company)}
-                  className={`transition-colors cursor-pointer group ${
-                    isStarred ? 'bg-amber-50/25 hover:bg-amber-50/60' : 'hover:bg-emerald-50/40'
-                  }`}
+                  className={`transition-colors cursor-pointer group ${rowRatingClass}`}
                   title="클릭하여 네이버 금융 종목분석(finance.naver.com) 열기"
                 >
                   {/* 1. 별표 (Star) */}
@@ -391,14 +641,28 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
                     </div>
                   </td>
 
-                  {/* 3. 기업명 */}
-                  <td className="py-3.5 px-4">
-                    <div className="flex flex-col">
-                      <div className="flex items-center gap-1.5 flex-wrap">
-                        <span className="font-bold text-slate-900 group-hover:text-emerald-700 transition-colors text-[14px] sm:text-[15px]">
-                          {company.name}
-                        </span>
-                        <ExternalLink className="w-3 h-3 text-slate-300 group-hover:text-emerald-600 transition-colors shrink-0" />
+                  {/* 3. 기업명 & S A B F 즉시 평가 체크 */}
+                  <td className="py-3.5 px-4 min-w-[280px]">
+                    <div className="flex flex-col gap-1">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        {/* 기업명 텍스트 박스 */}
+                        <div className={`inline-flex items-center gap-1.5 transition-all ${nameStyle.boxClass}`}>
+                          {currentGrade && nameStyle.badgeClass && (
+                            <span className={nameStyle.badgeClass}>{currentGrade}</span>
+                          )}
+                          <span className={`text-[14px] sm:text-[15px] transition-colors ${nameStyle.textClass}`}>
+                            {company.name}
+                          </span>
+                          <ExternalLink className="w-3 h-3 text-slate-400 group-hover:text-emerald-600 transition-colors shrink-0" />
+                        </div>
+
+                        {/* S / A / B / F 즉시 평가 체크 버튼 그룹 */}
+                        <InlineRatingCheck
+                          companyCode={company.code}
+                          currentGrade={currentGrade}
+                          onRate={onRate}
+                        />
+
                         {company.isCustom && (
                           <span className="text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded font-medium">
                             사용자추가
@@ -463,27 +727,29 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
                     </span>
                   </td>
 
-                  {/* 5. 업종 */}
-                  <td className="py-3.5 px-4 whitespace-nowrap">
-                    <div className="flex flex-col">
-                      <span className="text-xs font-semibold text-slate-800">{company.sector}</span>
-                      {company.subSector && (
-                        <span className="text-[11px] text-slate-400">{company.subSector}</span>
-                      )}
-                    </div>
+                  {/* 5. 업종 (폭 축소 및 간결한 표시) */}
+                  <td
+                    className="py-3.5 px-3 w-[95px] sm:w-[105px] max-w-[110px]"
+                    title={company.sector}
+                  >
+                    <span className="text-xs font-semibold text-slate-700 truncate block">
+                      {company.sector}
+                    </span>
                   </td>
 
                   {/* 6. 시가총액 (단위: 억) & 당일 변동 */}
                   <td className="py-3.5 px-4 text-right whitespace-nowrap">
                     <div className="flex flex-col items-end">
                       <span
-                        className="font-bold text-slate-900 tabular-nums text-xs sm:text-[13px]"
+                        className="font-semibold text-slate-900 tabular-nums text-xs sm:text-[13px]"
                         title={company.marketCap ? `정확한 시가총액: ${company.marketCap.toLocaleString()}억원` : undefined}
                       >
                         {formatKoreanMarketCap(company.marketCap) || company.marketCapText || '-'}
                       </span>
+
+                      {/* 당일 주가 및 등락률 */}
                       {company.changeRate !== undefined && (
-                        <div className="flex items-center gap-1 mt-0.5 text-[11px] tabular-nums font-semibold">
+                        <div className="flex items-center gap-1.5 mt-0.5 text-[11px] tabular-nums font-medium">
                           {company.changeRate > 0 ? (
                             <span className="text-rose-600 inline-flex items-center font-bold">
                               ▲ +{company.changeRate}%
@@ -493,7 +759,7 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
                               ▼ {company.changeRate}%
                             </span>
                           ) : (
-                            <span className="text-slate-400">
+                            <span className="text-slate-400 font-medium">
                               0.0%
                             </span>
                           )}
@@ -698,8 +964,8 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
             </div>
 
             <div className="mt-3 pt-3 border-t border-slate-100">
-              <label className="block text-xs font-semibold text-slate-600 mb-1.5">
-                투자 평가 등급 (S / A / B / F)
+              <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                투자 평가 등급 (S: 무기한 보유 / A: 기한 보유 / B: 관망 / F: 매도·제외)
               </label>
               <div className="flex items-center gap-2 flex-wrap">
                 <RatingSelector
