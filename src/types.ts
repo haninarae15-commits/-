@@ -1,6 +1,6 @@
 export type MarketType = 'KOSPI' | 'KOSDAQ' | 'KONEX';
 
-export type RatingGrade = 'S' | 'A' | 'B' | 'F';
+export type RatingGrade = 'S' | 'A' | 'B' | 'C' | 'F';
 
 export interface Company {
   code: string; // 6-digit KRX stock code (e.g. '005930')

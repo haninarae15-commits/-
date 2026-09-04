@@ -280,7 +280,7 @@ export default function App() {
 
   // Grade counts calculation
   const gradeCounts = useMemo(() => {
-    const counts: Record<RatingGrade, number> = { S: 0, A: 0, B: 0, F: 0 };
+    const counts: Record<RatingGrade, number> = { S: 0, A: 0, B: 0, C: 0, F: 0 };
     let unrated = 0;
 
     allCompanies.forEach((c) => {
@@ -556,9 +556,9 @@ export default function App() {
       } else if (sortField === 'market') {
         cmp = a.market.localeCompare(b.market);
       } else if (sortField === 'rating') {
-        const rankMap: Record<string, number> = { S: 1, A: 2, B: 3, F: 4 };
-        const rankA = evaluations[a.code]?.grade ? rankMap[evaluations[a.code].grade!] : 5;
-        const rankB = evaluations[b.code]?.grade ? rankMap[evaluations[b.code].grade!] : 5;
+        const rankMap: Record<string, number> = { S: 1, A: 2, B: 3, C: 4, F: 5 };
+        const rankA = evaluations[a.code]?.grade ? rankMap[evaluations[a.code].grade!] : 6;
+        const rankB = evaluations[b.code]?.grade ? rankMap[evaluations[b.code].grade!] : 6;
         cmp = rankA - rankB;
         if (cmp === 0) {
           cmp = a.name.localeCompare(b.name, 'ko-KR');
@@ -922,7 +922,7 @@ export default function App() {
                 </span>
               </button>
 
-              {/* B 관망 */}
+              {/* B 관심 */}
               <button
                 type="button"
                 id="btn-quick-filter-b"
@@ -937,10 +937,10 @@ export default function App() {
                     ? 'bg-blue-600 text-white border-blue-700 shadow-xs'
                     : 'bg-blue-50/80 text-blue-700 hover:bg-blue-100 border-blue-200/80'
                 }`}
-                title="B등급(관망) 기업만 불러옵니다 (클릭 시 토글)"
+                title="B등급(관심) 기업만 불러옵니다 (클릭 시 토글)"
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-blue-400 inline-block" />
-                <span>B 관망</span>
+                <span>B 관심</span>
                 <span
                   className={`text-[10px] px-1 rounded-full font-black ${
                     filter.rating === 'B'
@@ -949,6 +949,36 @@ export default function App() {
                   }`}
                 >
                   {gradeCounts.counts.B}
+                </span>
+              </button>
+
+              {/* C 관망 */}
+              <button
+                type="button"
+                id="btn-quick-filter-c"
+                onClick={() =>
+                  setFilter((prev) => ({
+                    ...prev,
+                    rating: prev.rating === 'C' ? 'ALL' : 'C',
+                  }))
+                }
+                className={`px-2 py-0.5 rounded text-[11px] font-bold transition-all cursor-pointer flex items-center gap-1 border ${
+                  filter.rating === 'C'
+                    ? 'bg-amber-500 text-white border-amber-600 shadow-xs'
+                    : 'bg-amber-50/80 text-amber-700 hover:bg-amber-100 border-amber-200/80'
+                }`}
+                title="C등급(관망) 기업만 불러옵니다 (클릭 시 토글)"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block" />
+                <span>C 관망</span>
+                <span
+                  className={`text-[10px] px-1 rounded-full font-black ${
+                    filter.rating === 'C'
+                      ? 'bg-amber-600 text-white'
+                      : 'bg-amber-200/80 text-amber-900'
+                  }`}
+                >
+                  {gradeCounts.counts.C}
                 </span>
               </button>
 

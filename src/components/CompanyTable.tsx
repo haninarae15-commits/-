@@ -95,9 +95,15 @@ const InlineRatingCheck: React.FC<InlineRatingCheckProps> = ({
     },
     {
       grade: 'B',
-      label: 'B등급 (관망)',
+      label: 'B등급 (관심)',
       activeClass: 'bg-blue-600 text-white border-blue-700 shadow-xs font-black ring-2 ring-blue-300',
       inactiveClass: 'text-blue-700 bg-blue-50 hover:bg-blue-100 border-blue-200 hover:border-blue-300',
+    },
+    {
+      grade: 'C',
+      label: 'C등급 (관망)',
+      activeClass: 'bg-amber-500 text-white border-amber-600 shadow-xs font-black ring-2 ring-amber-300',
+      inactiveClass: 'text-amber-700 bg-amber-50 hover:bg-amber-100 border-amber-200 hover:border-amber-300',
     },
     {
       grade: 'F',
@@ -206,6 +212,8 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
           return 'bg-emerald-50/70 hover:bg-emerald-100/80 border-l-4 border-l-emerald-500';
         case 'B':
           return 'bg-blue-50/70 hover:bg-blue-100/80 border-l-4 border-l-blue-500';
+        case 'C':
+          return 'bg-amber-50/70 hover:bg-amber-100/80 border-l-4 border-l-amber-500';
         case 'F':
           return 'bg-rose-50/70 hover:bg-rose-100/80 border-l-4 border-l-rose-500';
       }
@@ -246,6 +254,12 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
             textClass: 'text-blue-950 font-black',
             badgeClass: 'bg-blue-600 text-white font-black text-[10px] px-1.5 py-0.5 rounded shadow-2xs',
           };
+        case 'C':
+          return {
+            boxClass: 'bg-amber-100/90 border border-amber-300 px-2 py-0.5 rounded-md shadow-2xs',
+            textClass: 'text-amber-950 font-black',
+            badgeClass: 'bg-amber-500 text-white font-black text-[10px] px-1.5 py-0.5 rounded shadow-2xs',
+          };
         case 'F':
           return {
             boxClass: 'bg-rose-100/90 border border-rose-300 px-2 py-0.5 rounded-md shadow-2xs',
@@ -274,6 +288,12 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
           boxClass: '',
           textClass: 'text-blue-950 font-extrabold',
           badgeClass: 'bg-blue-600 text-white font-bold text-[10px] px-1 py-0.2 rounded shadow-2xs',
+        };
+      case 'C':
+        return {
+          boxClass: '',
+          textClass: 'text-amber-950 font-extrabold',
+          badgeClass: 'bg-amber-500 text-white font-bold text-[10px] px-1 py-0.2 rounded shadow-2xs',
         };
       case 'F':
         return {
@@ -479,10 +499,23 @@ export const CompanyTable: React.FC<CompanyTableProps> = ({
                 ? 'bg-blue-600 text-white border-blue-700 shadow-xs ring-2 ring-blue-300'
                 : 'text-blue-700 bg-blue-50 hover:bg-blue-100 border-blue-200'
             }`}
-            title="B등급(관망) 기업만 불러오기 (클릭하여 토글)"
+            title="B등급(관심) 기업만 불러오기 (클릭하여 토글)"
           >
             <span className={`w-2 h-2 rounded-full inline-block ${activeRatingFilter === 'B' ? 'bg-white' : 'bg-blue-600'}`}></span>
-            B 관망
+            B 관심
+          </button>
+          <button
+            type="button"
+            onClick={() => onSelectRatingFilter?.(activeRatingFilter === 'C' ? 'ALL' : 'C')}
+            className={`inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded border transition-all cursor-pointer ${
+              activeRatingFilter === 'C'
+                ? 'bg-amber-500 text-white border-amber-600 shadow-xs ring-2 ring-amber-300'
+                : 'text-amber-700 bg-amber-50 hover:bg-amber-100 border-amber-200'
+            }`}
+            title="C등급(관망) 기업만 불러오기 (클릭하여 토글)"
+          >
+            <span className={`w-2 h-2 rounded-full inline-block ${activeRatingFilter === 'C' ? 'bg-white' : 'bg-amber-500'}`}></span>
+            C 관망
           </button>
           <button
             type="button"

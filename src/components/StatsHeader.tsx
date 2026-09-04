@@ -21,7 +21,7 @@ export const StatsHeader: React.FC<StatsHeaderProps> = ({
   const ratedCount = totalCompanies - unratedCount;
   const ratedPercent = totalCompanies > 0 ? Math.round((ratedCount / totalCompanies) * 100) : 0;
 
-  const grades: RatingGrade[] = ['S', 'A', 'B', 'F'];
+  const grades: RatingGrade[] = ['S', 'A', 'B', 'C', 'F'];
 
   return (
     <div id="stats-header-container" className="bg-white border border-slate-200/80 rounded-xl p-4 sm:p-5 shadow-xs mb-6">
@@ -59,7 +59,7 @@ export const StatsHeader: React.FC<StatsHeaderProps> = ({
       </div>
 
       {/* Grade Quick Filter Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 sm:gap-3 mt-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2 sm:gap-3 mt-4">
         {/* 전체 */}
         <button
           id="stat-filter-all"

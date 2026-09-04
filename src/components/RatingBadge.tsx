@@ -30,6 +30,13 @@ export const GRADE_CONFIG: Record<
     text: 'text-blue-700',
     bg: 'bg-blue-50 hover:bg-blue-100',
     border: 'border-blue-300',
+    desc: '관심',
+  },
+  C: {
+    label: 'C 등급',
+    text: 'text-amber-700',
+    bg: 'bg-amber-50 hover:bg-amber-100',
+    border: 'border-amber-300',
     desc: '관망',
   },
   F: {
@@ -93,7 +100,7 @@ export const RatingSelector: React.FC<RatingSelectorProps> = ({
   onChange,
   code,
 }) => {
-  const grades: RatingGrade[] = ['S', 'A', 'B', 'F'];
+  const grades: RatingGrade[] = ['S', 'A', 'B', 'C', 'F'];
 
   return (
     <div

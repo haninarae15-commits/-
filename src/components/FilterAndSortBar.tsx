@@ -248,7 +248,8 @@ export const FilterAndSortBar: React.FC<FilterAndSortBarProps> = ({
               <option value="RATED">평가 완료만</option>
               <option value="S">S 등급 (무기한 보유)</option>
               <option value="A">A 등급 (기한 보유)</option>
-              <option value="B">B 등급 (관망)</option>
+              <option value="B">B 등급 (관심)</option>
+              <option value="C">C 등급 (관망)</option>
               <option value="F">F 등급 (매도 / 제외)</option>
               <option value="UNRATED">미평가 종목만</option>
             </select>
